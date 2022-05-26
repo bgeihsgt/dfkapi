@@ -1,6 +1,7 @@
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
+import pinoHttp from 'pino-http';
 
 const schema = buildSchema(`
     type Query {
@@ -15,6 +16,7 @@ const root = {
 }
 
 const app = express();
+app.use(pinoHttp());
 app.use('/graphql', graphqlHTTP({
     schema,
     rootValue: root,
