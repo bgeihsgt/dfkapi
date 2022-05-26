@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "clean": "npm run clean --workspaces",
+    "postinstall": "npm run compile",
     "compile": "tsc -b tsconfig.build.json",
     "test": "npm test --workspaces",
-    "web": "npm run clean; npm run compile; node ./packages/web/lib/server.js"
+    "start:web": "node ./packages/web/lib/server.js"
   },
   "author": "",
   "license": "ISC",
