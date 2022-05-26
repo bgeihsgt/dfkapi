@@ -1,4 +1,4 @@
 {
     "files": [],
-    "references": [{ "path": "packages/data-blockchain" }, { "path": "packages/api" }]
+    "references": [{ "path": "packages/data-blockchain" }, { "path": "packages/api" }, { "path": "packages/worker" }]
 }
