@@ -7,7 +7,7 @@
     "postinstall": "npm run compile",
     "compile": "tsc -b tsconfig.build.json",
     "test": "npm test --workspaces",
-    "start:web": "node ./packages/web/lib/server.js"
+    "start:api": "node ./packages/api/lib/server.js"
   },
   "author": "",
   "license": "ISC",

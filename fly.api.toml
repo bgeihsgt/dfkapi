@@ -1,6 +1,6 @@
-# fly.toml file generated for dfkapi-web on 2022-05-26T11:56:31-07:00
+# fly.toml file generated for dfkcommunityapi-api on 2022-05-26T11:56:31-07:00
 
-app = "dfkapi-web"
+app = "dfkcommunityapi-api"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
@@ -15,7 +15,7 @@ processes = []
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
-  cmd = ["npm", "run", "start:web"]
+  cmd = ["npm", "run", "start:api"]
 
 [[services]]
   http_checks = []
