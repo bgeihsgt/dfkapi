@@ -1,4 +1,5 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers, BigNumber, providers } from "ethers";
+import { getSerendaleProvider } from "./provider";
 
 const SERENDALE_CONTRACT_ADDRESS = '0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C'
 const CRYSTALVALE_CONTRACT_ADDRESS = '0xEb9B61B145D6489Be575D3603F4a704810e143dF'
@@ -57,15 +58,8 @@ const abi = `
     ]
 `
 
-function getProvider() {
-    const url = "https://api.harmony.one/"
-    const provider = new ethers.providers.JsonRpcProvider(url);
-
-    return provider;
-}
-
-function getContract() {
-    const provider = getProvider();
+function getContract(provider?: providers.Provider) {
+    provider = provider || getSerendaleProvider();
     const contract = new ethers.Contract(SERENDALE_CONTRACT_ADDRESS, abi, provider);
 
     return contract;
@@ -73,8 +67,8 @@ function getContract() {
 
 export type ContractArray = Array<BigNumber | string | number | boolean | ContractArray>;
 
-export async function getHero(id: bigint): Promise<ContractArray> {
-    const contract = getContract();
+export async function getHero(id: bigint, provider?: providers.Provider): Promise<ContractArray> {
+    const contract = getContract(provider);
 
     return await contract.getHero(id);
 }

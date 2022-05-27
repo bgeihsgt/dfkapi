@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, providers } from "ethers";
 import { getHero as getContractHero, ContractArray } from "./contracts/hero";
 
 export enum HeroRarity {
@@ -174,7 +174,7 @@ function contractHeroToHero(contractHero: ContractArray): Hero {
     };
 }
 
-export async function getHero(id: bigint): Promise<Hero> {
-    const contractHero = await getContractHero(id);
+export async function getHero(id: bigint, provider?: providers.Provider): Promise<Hero> {
+    const contractHero = await getContractHero(id, provider);
     return contractHeroToHero(contractHero);
 }

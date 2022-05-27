@@ -4,12 +4,16 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "test": "export NODE_ENV=test; jest --passWithNoTests",
+    "test:record": "export TALKBACK_RECORD=true; npm t",
     "clean": "rm -rf lib; rm *.tsbuildinfo"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ethers": "^5.6.8"
+  },
+  "devDependencies": {
+    "talkback": "^3.0.1"
   }
 }

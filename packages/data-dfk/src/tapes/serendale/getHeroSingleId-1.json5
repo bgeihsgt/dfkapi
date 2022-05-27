@@ -1,0 +1,54 @@
+{
+    meta: {
+        createdAt: '2022-05-27T22:20:40.932Z',
+        host: 'https://api.harmony.one/',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/',
+        method: 'POST',
+        body: {
+            method: 'eth_chainId',
+            params: [],
+            id: 42,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            date: [
+                'Fri, 27 May 2022 22:20:41 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'content-length': [
+                '48',
+            ],
+            connection: [
+                'close',
+            ],
+            'set-cookie': [
+                'AWSALB=YJEa1O/XpGo5LWo6n1f4l9mPZkQ+hnycPEK9dtwcQAE9M8w6ehoj4QHaU1hh2Ha846WTVrC3+SHmkt6tIQmhV7TYwVVOVDzdR4fD/CW2KNvtuoFrhWBDWBI21EN2; Expires=Fri, 03 Jun 2022 22:20:41 GMT; Path=/',
+                'AWSALBCORS=YJEa1O/XpGo5LWo6n1f4l9mPZkQ+hnycPEK9dtwcQAE9M8w6ehoj4QHaU1hh2Ha846WTVrC3+SHmkt6tIQmhV7TYwVVOVDzdR4fD/CW2KNvtuoFrhWBDWBI21EN2; Expires=Fri, 03 Jun 2022 22:20:41 GMT; Path=/; SameSite=None; Secure',
+            ],
+            server: [
+                'nginx',
+            ],
+            vary: [
+                'Origin',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 42,
+            result: '0x63564c40',
+        },
+    },
+}
