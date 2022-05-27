@@ -2,7 +2,7 @@
     "files": [],
     "references": [
         { "path": "packages/data-postgres" }, 
-        { "path": "packages/data-blockchain" }, 
+        { "path": "packages/data-dfk" }, 
         { "path": "packages/api" }, 
         { "path": "packages/worker" }
     ]
