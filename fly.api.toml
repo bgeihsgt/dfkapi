@@ -11,11 +11,15 @@ processes = []
 
 [env]
   PORT = "8080"
+  NODE_ENV = "production"
 
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
   cmd = ["npm", "run", "start:api"]
+
+[deploy]
+  release_command = "npm run migrate:latest"
 
 [[services]]
   http_checks = []
