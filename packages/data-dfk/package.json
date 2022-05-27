@@ -8,5 +8,8 @@
     "clean": "rm -rf lib; rm *.tsbuildinfo"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^5.6.8"
+  }
 }
