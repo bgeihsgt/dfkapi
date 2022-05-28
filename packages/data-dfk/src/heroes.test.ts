@@ -26,6 +26,12 @@ describe("Heroes data access" , () => {
 
             expect(hero).toEqual(expected);
         });
+
+        it("should return an error when the hero id does not exist", async () => {
+            const id = BigInt("5000000");
+
+            await expect(getHero(id, () => getSerendaleProvider())).rejects.toThrow("The hero id 5000000 does not exist");
+        })
     });
 
     describe("getHeroes([ids])", () => {
@@ -61,6 +67,15 @@ describe("Heroes data access" , () => {
 
             expect(ids.sort()).toEqual(heroIds.sort());
         });
+
+        it("should fail when any of the promises fail", async () => {
+            const ids = [
+                BigInt("19610"), 
+                BigInt("5000001"), 
+            ];
+
+            await expect(getHeroes(ids, () => getSerendaleProvider())).rejects.toThrow("The hero id 5000001 does not exist");
+        })
     });
     
 });

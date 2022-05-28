@@ -94,9 +94,27 @@ function contractHeroToHero(contractHero: ContractArray): Hero {
     };
 }
 
+function isNotFound(err: any) {
+    return (
+        err.errorName === "Panic" 
+        && Array.isArray(err.errorArgs) 
+        && err.errorArgs.length > 0
+        && BigNumber.isBigNumber(err.errorArgs[0])
+        && err.errorArgs[0].eq(50)
+    );
+}
+
 export async function getHero(id: bigint, getProvider?: () => providers.Provider): Promise<Hero> {
-    const contractHero = await getContractHero(id, getProvider);
-    return contractHeroToHero(contractHero);
+    try {
+        const contractHero = await getContractHero(id, getProvider);
+        return contractHeroToHero(contractHero);
+    } catch(err) {
+        if (isNotFound(err)) {
+            throw new Error(`The hero id ${id} does not exist.`);
+        }
+
+        throw err;
+    }
 }
 
 export async function getHeroes(ids: Array<bigint>, getProvider?: () => providers.Provider): Promise<Array<Hero>> {
