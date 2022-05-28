@@ -1,0 +1,77 @@
+{
+    meta: {
+        createdAt: '2022-05-28T06:47:07.897Z',
+        host: 'https://subnets.avax.network',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/defi-kingdoms/dfk-chain/rpc',
+        method: 'POST',
+        body: {
+            method: 'eth_chainId',
+            params: [],
+            id: 43,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            date: [
+                'Sat, 28 May 2022 06:47:07 GMT',
+            ],
+            'content-type': [
+                'application/json;charset=utf-8',
+            ],
+            'content-length': [
+                '43',
+            ],
+            connection: [
+                'close',
+            ],
+            'cache-control': [
+                'private, no-cache',
+            ],
+            vary: [
+                'Origin',
+            ],
+            'access-control-allow-credentials': [
+                'true',
+            ],
+            'x-cache': [
+                'HIT',
+            ],
+            'x-execution-weight': [
+                'free',
+            ],
+            'x-robots-tag': [
+                'noindex',
+            ],
+            'expect-ct': [
+                'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+            ],
+            'set-cookie': [
+                '__cf_bm=8Lt9j2ioXafG4fkkRUIc5GEdnfke9As0KcS934Jb9WQ-1653720427-0-AS7xN5OWyrhfLVyc6mgXn0LszWUhP4uxXD7/fuD9MFQodwDxpyuEC5CYIWUnKL0+LMu48u9xoE9ZRZ4U21MOSzc=; path=/; expires=Sat, 28-May-22 07:17:07 GMT; domain=.avax.network; HttpOnly; Secure; SameSite=None',
+            ],
+            'strict-transport-security': [
+                'max-age=0',
+            ],
+            server: [
+                'cloudflare',
+            ],
+            'cf-ray': [
+                '71250982cc99f5a1-SEA',
+            ],
+        },
+        body: {
+            result: '0xd2af',
+            id: 43,
+            jsonrpc: '2.0',
+        },
+    },
+}

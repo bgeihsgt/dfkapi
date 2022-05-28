@@ -1,4 +1,5 @@
-import { BigNumber, providers } from "ethers";
+import { BigNumber } from "ethers";
+import { Provider } from "./contracts/provider";
 import { getHero as getContractHero, ContractArray } from "./contracts/hero";
 import { Hero, HeroRarity } from '@dfkapi/data-core';
 import pMap from 'p-map';
@@ -104,9 +105,15 @@ function isNotFound(err: any) {
     );
 }
 
-export async function getHero(id: bigint, getProvider?: () => providers.Provider): Promise<Hero> {
+export async function getHero(id: bigint, getProvider?: () => Provider): Promise<Hero> {
     try {
         const contractHero = await getContractHero(id, getProvider);
+        const mappedHero = contractHeroToHero(contractHero);
+
+        if (mappedHero.id === 0n) {
+            throw new Error(`The hero id ${id} does not exist.`);
+        }
+        
         return contractHeroToHero(contractHero);
     } catch(err) {
         if (isNotFound(err)) {
@@ -117,7 +124,7 @@ export async function getHero(id: bigint, getProvider?: () => providers.Provider
     }
 }
 
-export async function getHeroes(ids: Array<bigint>, getProvider?: () => providers.Provider): Promise<Array<Hero>> {
+export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider): Promise<Array<Hero>> {
     const mapper = async (id: bigint): Promise<Hero> => {
         return await getHero(id, getProvider);
     } 

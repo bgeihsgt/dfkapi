@@ -1,5 +1,5 @@
-import { ethers, BigNumber, providers } from "ethers";
-import { getSerendaleProvider } from "./provider";
+import { ethers, BigNumber } from "ethers";
+import { getSerendaleProvider, Provider, ProviderLocation } from "./provider";
 
 const SERENDALE_CONTRACT_ADDRESS = '0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C'
 const CRYSTALVALE_CONTRACT_ADDRESS = '0xEb9B61B145D6489Be575D3603F4a704810e143dF'
@@ -58,16 +58,18 @@ const abi = `
     ]
 `
 
-function getContract(getProvider?: () => providers.Provider) {
+function getContract(getProvider?: () => Provider) {
     getProvider = getProvider || getSerendaleProvider;
-    const contract = new ethers.Contract(SERENDALE_CONTRACT_ADDRESS, abi, getProvider());
+    const provider = getProvider();
+
+    const contract = new ethers.Contract(provider.location == ProviderLocation.Serendale ? SERENDALE_CONTRACT_ADDRESS : CRYSTALVALE_CONTRACT_ADDRESS, abi, provider.provider);
 
     return contract;
 }
 
 export type ContractArray = Array<BigNumber | string | number | boolean | ContractArray>;
 
-export async function getHero(id: bigint, getProvider?: () => providers.Provider): Promise<ContractArray> {
+export async function getHero(id: bigint, getProvider?: () => Provider): Promise<ContractArray> {
     const contract = getContract(getProvider);
 
     return await contract.getHero(id);

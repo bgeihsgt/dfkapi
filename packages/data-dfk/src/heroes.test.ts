@@ -1,20 +1,21 @@
-import { providers } from 'ethers';
 import TalkbackServer from 'talkback/server';
 import { getHero, getHeroes } from "./heroes";
 import { makeHero } from "@dfkapi/data-core/src/testdata";
-import { startSerendaleMockServer, getSerendaleProvider } from './provider.mock';
+import { startSerendaleMockServer, getSerendaleProvider, startCrystalvaleMockServer, getCrystalvaleProvider } from './provider.mock';
 
 describe("Heroes data access" , () => {
-    let provider: providers.Provider;
-    let server: TalkbackServer;
+    let serendaleServer: TalkbackServer;
+    let crystalvaleServer: TalkbackServer;
 
     describe("getHero(id)", () => {
         beforeAll(() => {
-            server = startSerendaleMockServer("heroes", "getHero");
+            serendaleServer = startSerendaleMockServer("heroes", "getHero");
+            crystalvaleServer = startCrystalvaleMockServer("heroes", "getHero");
         });
 
         afterAll(() => {
-            server.close();
+            serendaleServer.close();
+            crystalvaleServer.close();
         })
 
         it("should return a full set of hero data with valid ID", async () => {
@@ -31,16 +32,32 @@ describe("Heroes data access" , () => {
             const id = BigInt("5000000");
 
             await expect(getHero(id, () => getSerendaleProvider())).rejects.toThrow("The hero id 5000000 does not exist");
-        })
+        });
+
+        it("should return a crystalvale hero from crystalvale when it is there", async () => {
+            const id = BigInt("1000000000001");
+
+            const hero = await getHero(id, () => getCrystalvaleProvider());
+
+            expect(hero.id).toBe(1000000000001n);
+        });
+
+        it("should return an error when a crystalvale hero id does not exist", async () => {
+            const id = BigInt("5000001");
+
+            await expect(getHero(id, () => getCrystalvaleProvider())).rejects.toThrow("The hero id 5000001 does not exist");
+        });
     });
 
     describe("getHeroes([ids])", () => {
         beforeAll(() => {
-            server = startSerendaleMockServer("heroes", "getHeroes");
+            serendaleServer = startSerendaleMockServer("heroes", "getHeroes");
+            crystalvaleServer = startCrystalvaleMockServer("heroes", "getHero");
         });
 
         afterAll(() => {
-            server.close();
+            serendaleServer.close();
+            crystalvaleServer.close();
         })
 
         it("should return an array of those heroes via concurrent request", async () => {
