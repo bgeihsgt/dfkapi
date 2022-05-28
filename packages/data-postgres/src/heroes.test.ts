@@ -23,5 +23,19 @@ describe('Heroes Postgres API', () => {
 
             expect(actual).toEqual(hero);
         });
+
+        it("should update the hero if it already exists", async () => {
+            const hero = makeHero();
+            const updatedHero = {
+                ...hero,
+                xp: hero.xp + 1n
+            };
+
+            await upsertHero(updatedHero);
+
+            const actual = await getHero(hero.id);
+
+            expect(actual).toEqual(updatedHero);
+        })
     });
 });

@@ -157,7 +157,7 @@ function pgHeroToHero(pgHero: any): Hero {
 }
 
 export async function upsertHero(hero: Hero) {
-    await knex('heroes').insert(heroToPgHero(hero));
+    await knex('heroes').insert(heroToPgHero(hero)).onConflict('id').merge();
 }
 
 export async function getHero(id: bigint): Promise<Hero> {
