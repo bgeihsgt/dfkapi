@@ -15,7 +15,7 @@ describe('Heroes Postgres API', () => {
 
     describe("upsertHero", () => {
         it("should create a hero if it does not exist", async () => {
-            const hero = makeHero();
+            const hero = makeHero({ id: 16639n });
 
             await upsertHero(hero);
 
@@ -25,7 +25,10 @@ describe('Heroes Postgres API', () => {
         });
 
         it("should update the hero if it already exists", async () => {
-            const hero = makeHero();
+            const hero = makeHero({ id: 20000n });
+
+            await upsertHero(hero);
+
             const updatedHero = {
                 ...hero,
                 xp: hero.xp + 1n

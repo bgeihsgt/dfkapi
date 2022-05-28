@@ -1,8 +1,12 @@
 import { Hero, HeroClass, HeroStatus, HeroRarity } from "./";
 
-export function makeHero(): Hero {
+interface HeroOptions {
+    id?: bigint
+}
+
+export function makeHero(options?: HeroOptions): Hero {
     return {
-        id: BigInt("16639"),
+        id: options?.id || BigInt("16639"),
         summonedTime: BigInt("1636277273"),
         nextSummonTime: BigInt("1639071247"),
         summonerId: BigInt("11621"),
