@@ -1,6 +1,7 @@
 {
     "files": [],
     "references": [
+        { "path": "packages/data-core" }, 
         { "path": "packages/data-postgres" }, 
         { "path": "packages/data-dfk" }, 
         { "path": "packages/api" }, 

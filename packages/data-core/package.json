@@ -1,10 +1,10 @@
 {
-  "name": "@dfkapi/data-dfk",
+  "name": "@dfkapi/data-core",
   "version": "0.1.0",
   "description": "",
+  "main": "lib/index.js",
   "scripts": {
     "test": "export NODE_ENV=test; jest --passWithNoTests",
-    "test:record": "export TALKBACK_RECORD=true; npm t",
     "clean": "rm -rf lib; rm *.tsbuildinfo"
   },
   "author": "",

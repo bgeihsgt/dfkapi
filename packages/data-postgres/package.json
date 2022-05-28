@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "test": "export NODE_ENV=test; jest --passWithNoTests",
     "clean": "rm -rf lib; rm *.tsbuildinfo"
   },
   "author": "",
