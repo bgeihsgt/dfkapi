@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2022-05-27T22:20:40.932Z',
+        createdAt: '2022-05-28T04:12:31.016Z',
         host: 'https://api.harmony.one/',
         reqHumanReadable: true,
         resHumanReadable: true,
@@ -15,7 +15,7 @@
         body: {
             method: 'eth_chainId',
             params: [],
-            id: 42,
+            id: 43,
             jsonrpc: '2.0',
         },
     },
@@ -23,7 +23,7 @@
         status: 200,
         headers: {
             date: [
-                'Fri, 27 May 2022 22:20:41 GMT',
+                'Sat, 28 May 2022 04:12:31 GMT',
             ],
             'content-type': [
                 'application/json',
@@ -35,8 +35,8 @@
                 'close',
             ],
             'set-cookie': [
-                'AWSALB=YJEa1O/XpGo5LWo6n1f4l9mPZkQ+hnycPEK9dtwcQAE9M8w6ehoj4QHaU1hh2Ha846WTVrC3+SHmkt6tIQmhV7TYwVVOVDzdR4fD/CW2KNvtuoFrhWBDWBI21EN2; Expires=Fri, 03 Jun 2022 22:20:41 GMT; Path=/',
-                'AWSALBCORS=YJEa1O/XpGo5LWo6n1f4l9mPZkQ+hnycPEK9dtwcQAE9M8w6ehoj4QHaU1hh2Ha846WTVrC3+SHmkt6tIQmhV7TYwVVOVDzdR4fD/CW2KNvtuoFrhWBDWBI21EN2; Expires=Fri, 03 Jun 2022 22:20:41 GMT; Path=/; SameSite=None; Secure',
+                'AWSALB=7O8OX2Z6Pfr9Z2OivxbxGc++zxZwcosInwId/GrUS9zeJSQA2MmTrAMiQswHTjuh/EWhupEqxyGUs/TWyN12eGC5Dbf1s/LOO3BkLTYTrvGZFGP1A4dX8H3O4+zx; Expires=Sat, 04 Jun 2022 04:12:31 GMT; Path=/',
+                'AWSALBCORS=7O8OX2Z6Pfr9Z2OivxbxGc++zxZwcosInwId/GrUS9zeJSQA2MmTrAMiQswHTjuh/EWhupEqxyGUs/TWyN12eGC5Dbf1s/LOO3BkLTYTrvGZFGP1A4dX8H3O4+zx; Expires=Sat, 04 Jun 2022 04:12:31 GMT; Path=/; SameSite=None; Secure',
             ],
             server: [
                 'nginx',
@@ -47,7 +47,7 @@
         },
         body: {
             jsonrpc: '2.0',
-            id: 42,
+            id: 43,
             result: '0x63564c40',
         },
     },

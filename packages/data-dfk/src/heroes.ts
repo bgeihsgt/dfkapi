@@ -1,6 +1,7 @@
 import { BigNumber, providers } from "ethers";
 import { getHero as getContractHero, ContractArray } from "./contracts/hero";
 import { Hero, HeroRarity } from '@dfkapi/data-core';
+import pMap from 'p-map';
 
 
 function contractHeroToHero(contractHero: ContractArray): Hero {
@@ -93,7 +94,15 @@ function contractHeroToHero(contractHero: ContractArray): Hero {
     };
 }
 
-export async function getHero(id: bigint, provider?: providers.Provider): Promise<Hero> {
-    const contractHero = await getContractHero(id, provider);
+export async function getHero(id: bigint, getProvider?: () => providers.Provider): Promise<Hero> {
+    const contractHero = await getContractHero(id, getProvider);
     return contractHeroToHero(contractHero);
+}
+
+export async function getHeroes(ids: Array<bigint>, getProvider?: () => providers.Provider): Promise<Array<Hero>> {
+    const mapper = async (id: bigint): Promise<Hero> => {
+        return await getHero(id, getProvider);
+    } 
+
+    return await pMap(ids, mapper, { concurrency: 10 });
 }

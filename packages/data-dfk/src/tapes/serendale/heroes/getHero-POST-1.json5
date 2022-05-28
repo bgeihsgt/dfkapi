@@ -1,6 +1,6 @@
 {
     meta: {
-        createdAt: '2022-05-27T22:20:41.587Z',
+        createdAt: '2022-05-28T04:12:30.848Z',
         host: 'https://api.harmony.one/',
         reqHumanReadable: true,
         resHumanReadable: true,
@@ -15,7 +15,7 @@
         body: {
             method: 'eth_chainId',
             params: [],
-            id: 43,
+            id: 42,
             jsonrpc: '2.0',
         },
     },
@@ -23,7 +23,7 @@
         status: 200,
         headers: {
             date: [
-                'Fri, 27 May 2022 22:20:41 GMT',
+                'Sat, 28 May 2022 04:12:31 GMT',
             ],
             'content-type': [
                 'application/json',
@@ -35,8 +35,8 @@
                 'close',
             ],
             'set-cookie': [
-                'AWSALB=unv8DCjAR/yo4L7Zc0pmeT3+jRcmj3FPf3wDXCv+SnL9eHClJOey0COr4r9BkAF6Sd7Ho7eAheX1UhnqqFDeC6xxIZ5JEwckUTyh/PM75AStitBsOZ487EXPi3hJ; Expires=Fri, 03 Jun 2022 22:20:41 GMT; Path=/',
-                'AWSALBCORS=unv8DCjAR/yo4L7Zc0pmeT3+jRcmj3FPf3wDXCv+SnL9eHClJOey0COr4r9BkAF6Sd7Ho7eAheX1UhnqqFDeC6xxIZ5JEwckUTyh/PM75AStitBsOZ487EXPi3hJ; Expires=Fri, 03 Jun 2022 22:20:41 GMT; Path=/; SameSite=None; Secure',
+                'AWSALB=2bQ0cQC+h9Ls/iBz1Vf+iKUmMPcUuEyDQxdQYzP1G02DFqSVn3mN8yGvUJH/dg1mih/LrLjPQUjbegRyjJ89IIOSLL9XR0GUz34sW0VyVGCIrZGV9tBMfe7pfS0M; Expires=Sat, 04 Jun 2022 04:12:31 GMT; Path=/',
+                'AWSALBCORS=2bQ0cQC+h9Ls/iBz1Vf+iKUmMPcUuEyDQxdQYzP1G02DFqSVn3mN8yGvUJH/dg1mih/LrLjPQUjbegRyjJ89IIOSLL9XR0GUz34sW0VyVGCIrZGV9tBMfe7pfS0M; Expires=Sat, 04 Jun 2022 04:12:31 GMT; Path=/; SameSite=None; Secure',
             ],
             server: [
                 'nginx',
@@ -47,7 +47,7 @@
         },
         body: {
             jsonrpc: '2.0',
-            id: 43,
+            id: 42,
             result: '0x63564c40',
         },
     },

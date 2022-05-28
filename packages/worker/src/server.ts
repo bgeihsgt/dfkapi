@@ -11,5 +11,5 @@ cron.schedule("* * * * *", () => {
 const port = process.env.PORT || 4000;
 
 httpApp.listen(port, () => {
-    console.log(`Running the status server at http://localhost:${port}/`);
+    logger.info(`Running the status server at http://localhost:${port}/`);
 });

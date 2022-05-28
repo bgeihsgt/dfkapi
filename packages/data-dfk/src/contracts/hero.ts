@@ -58,17 +58,17 @@ const abi = `
     ]
 `
 
-function getContract(provider?: providers.Provider) {
-    provider = provider || getSerendaleProvider();
-    const contract = new ethers.Contract(SERENDALE_CONTRACT_ADDRESS, abi, provider);
+function getContract(getProvider?: () => providers.Provider) {
+    getProvider = getProvider || getSerendaleProvider;
+    const contract = new ethers.Contract(SERENDALE_CONTRACT_ADDRESS, abi, getProvider());
 
     return contract;
 }
 
 export type ContractArray = Array<BigNumber | string | number | boolean | ContractArray>;
 
-export async function getHero(id: bigint, provider?: providers.Provider): Promise<ContractArray> {
-    const contract = getContract(provider);
+export async function getHero(id: bigint, getProvider?: () => providers.Provider): Promise<ContractArray> {
+    const contract = getContract(getProvider);
 
     return await contract.getHero(id);
 }
