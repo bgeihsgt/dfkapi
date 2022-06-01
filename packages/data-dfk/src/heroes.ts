@@ -1,6 +1,6 @@
-import { BigNumber } from "ethers";
+import { BigNumber, Event } from "ethers";
 import { Provider } from "./contracts/provider";
-import { getHero as getContractHero, ContractArray } from "./contracts/hero";
+import { getHero as getContractHero, getHeroSummonedEvents as getContractHeroSummonedEvents, ContractArray } from "./contracts/hero";
 import { Hero, HeroRarity } from '@dfkapi/data-core';
 import pMap from 'p-map';
 
@@ -113,7 +113,7 @@ export async function getHero(id: bigint, getProvider?: () => Provider): Promise
         if (mappedHero.id === 0n) {
             throw new Error(`The hero id ${id} does not exist.`);
         }
-        
+
         return contractHeroToHero(contractHero);
     } catch(err) {
         if (isNotFound(err)) {
@@ -130,4 +130,60 @@ export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider
     } 
 
     return await pMap(ids, mapper, { concurrency: 10 });
+}
+
+interface BlockchainEvent<T> {
+    blockNumber: number,
+    blockHash: string,
+    transactionIndex: number,
+    removed: boolean,
+    address: string,
+    rawData: string,
+    transactionHash: string,
+    logIndex: number,
+    data: T
+}
+
+interface HeroSummoningEvent {
+    owner: string,
+    heroId: bigint,
+    summonerId: bigint,
+    assistantId: bigint,
+    statGenes: bigint,
+    visualGenes: bigint
+}
+
+function heroSummoningEventFromRawEvent(e: Event): BlockchainEvent<HeroSummoningEvent> {
+    if (!e.args) {
+        throw new Error("Found hero summoning event with no args.");
+    }
+
+    return {
+        blockNumber: e.blockNumber,
+        blockHash: e.blockHash,
+        transactionIndex: e.transactionIndex,
+        removed: e.removed,
+        address: e.address,
+        rawData: e.data,
+        transactionHash: e.transactionHash,
+        logIndex: e.logIndex,
+        data: {
+            owner: e.args[0],
+            heroId: e.args[1].toBigInt(),
+            summonerId: e.args[2].toBigInt(),
+            assistantId: e.args[3].toBigInt(),
+            statGenes: e.args[4].toBigInt(),
+            visualGenes: e.args[5].toBigInt()
+        }
+    };
+}
+
+function parseHeroSummoningEvents(rawEvents: Array<Event>): Array<BlockchainEvent<HeroSummoningEvent>> {
+    return rawEvents.map(e => heroSummoningEventFromRawEvent(e));
+}
+
+export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<Array<BlockchainEvent<HeroSummoningEvent>>> {
+    const rawEvents = await getContractHeroSummonedEvents(fromBlock, toBlock, getProvider);
+
+    return parseHeroSummoningEvents(rawEvents);
 }

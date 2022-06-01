@@ -74,3 +74,11 @@ export async function getHero(id: bigint, getProvider?: () => Provider): Promise
 
     return await contract.getHero(id);
 }
+
+export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<ethers.Event[]> {
+    const contract = getContract(getProvider);
+
+    const filter = contract.filters.HeroSummoned(null);
+
+    return await contract.queryFilter(filter, fromBlock, toBlock);
+}
