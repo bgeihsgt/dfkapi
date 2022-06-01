@@ -6,13 +6,12 @@ interface BlockRange {
     to: number
 }
 
-export function splitBlockRanges(fromBlock: number, toBlock: number): Array<BlockRange> {
-    const CHUNK_SIZE = 1000;
+export function splitBlockRanges(fromBlock: number, toBlock: number, chunkSize: number): Array<BlockRange> {
     let result = [];
     let currentFrom = fromBlock;
 
     while (currentFrom <= toBlock) {
-        const currentTo = Math.min(currentFrom + CHUNK_SIZE - 1, toBlock);
+        const currentTo = Math.min(currentFrom + chunkSize - 1, toBlock);
         result.push({ from: currentFrom, to: currentTo });
         currentFrom = currentTo + 1;
     }
@@ -27,7 +26,7 @@ export async function getEventsParallelized(getContract: () => Contract, getFilt
         return await contract.queryFilter(getFilter(contract), blockRange.from, blockRange.to);
     };
 
-    
-    const blockRanges = splitBlockRanges(fromBlock, toBlock);
+    const CHUNK_SIZE = 1000;
+    const blockRanges = splitBlockRanges(fromBlock, toBlock, CHUNK_SIZE);
     return (await pMap(blockRanges, mapper, { concurrency: 10 })).flat();
 }
