@@ -1,0 +1,68 @@
+{
+    meta: {
+        createdAt: '2022-06-01T20:28:30.009Z',
+        host: 'https://api.harmony.one/',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/',
+        method: 'POST',
+        body: {
+            method: 'eth_getLogs',
+            params: [
+                {
+                    fromBlock: '0x17d7840',
+                    toBlock: '0x17da018',
+                    address: '0x5f753dcdf9b1ad9aabc1346614d1f4746fd6ce5c',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                    ],
+                },
+            ],
+            id: 44,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx',
+            ],
+            date: [
+                'Wed, 01 Jun 2022 20:28:30 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'content-length': [
+                '107',
+            ],
+            vary: [
+                'Origin',
+            ],
+            'set-cookie': [
+                'DO-LB="MTAuMTI0LjAuNjo4NTAw"; Max-Age=60; Path=/; HttpOnly; SameSite=Lax',
+            ],
+            'cache-control': [
+                'private',
+            ],
+            connection: [
+                'close',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 44,
+            error: {
+                code: -32000,
+                message: 'GetLogs query must be smaller than size 1024',
+            },
+        },
+    },
+}

@@ -1,4 +1,5 @@
 import { ethers, BigNumber } from "ethers";
+import { getEventsParallelized } from "./events";
 import { getSerendaleProvider, Provider, ProviderLocation } from "./provider";
 
 const SERENDALE_CONTRACT_ADDRESS = '0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C'
@@ -76,9 +77,5 @@ export async function getHero(id: bigint, getProvider?: () => Provider): Promise
 }
 
 export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<ethers.Event[]> {
-    const contract = getContract(getProvider);
-
-    const filter = contract.filters.HeroSummoned(null);
-
-    return await contract.queryFilter(filter, fromBlock, toBlock);
+    return await getEventsParallelized(() => getContract(getProvider), c => c.filters.HeroSummoned(null), fromBlock, toBlock);
 }

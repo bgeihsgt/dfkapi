@@ -107,7 +107,7 @@ describe("Heroes data access" , () => {
         });
 
         it("should retrieve the serendale events", async () => {
-            const summoningEvents = await getHeroSummonedEvents(25000000, 25000999, () => getSerendaleProvider());
+            const summoningEvents = await getHeroSummonedEvents(25_000_000, 25_000_999, () => getSerendaleProvider());
 
             expect(summoningEvents.length).toBe(10);
             expect(summoningEvents[0]).toEqual({
@@ -146,6 +146,50 @@ describe("Heroes data access" , () => {
                     visualGenes: 60557467406933558782501669559277784793655285602216151966589082856856709n
                 }
             });
+        });
+
+        it("should receive crystalvale events", async () => {
+            const summoningEvents = await getHeroSummonedEvents(2_704_000, 2_704_999, () => getCrystalvaleProvider());
+
+            expect(summoningEvents.length).toBe(1);
+            expect(summoningEvents[0]).toEqual({
+                blockNumber: 2704539,
+                address: "0xEb9B61B145D6489Be575D3603F4a704810e143dF",
+                blockHash: "0xd4a74a67f28fcd3ef360b8c28a3e9a42dcfd0f37068f46e447b941c7d0c60c10",
+                logIndex: 0,
+                rawData: "0x000000000000000000000000000000000000000000000000000000e8d4a513c3000000000000000000000000000000000000000000000000000000000001e9dc0000000000000000000000000000000000000000000000000000000000021e0b0000308c1290a1000c2304a420ca720841190867388c7294a188812098c308c2000018c6318c40288e3729c2110063000738821418847118209c8411c6301c04",
+                removed: false,
+                transactionHash: "0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6",
+                transactionIndex: 1,
+                data: {
+                    owner: '0x99c71df5B17538b0CF10F6FdDaD18766349A7606',
+                    heroId: 1000000000963n,
+                    summonerId: 125404n,
+                    assistantId: 138763n,
+                    statGenes: 335060172297479571679811471009455345990633112149212708157934403571615938n,
+                    visualGenes: 170985199761119229137574546544909115454800841947938051489981624386329604n
+                }
+            });
+        });
+
+        it("should split blocks distances than 1000 into chunks and run them in parallel", async () => {
+            const summoningEvents = await getHeroSummonedEvents(25_000_000, 25_010_200, () => getSerendaleProvider());
+
+            expect(summoningEvents.length).toBe(196);
+            expect(summoningEvents[0].data.heroId).toBe(166750n);
+            expect(summoningEvents[195].data.heroId).toBe(166945n)
+        });
+
+        it("should receive empty array for no events (SD)", async () => {
+            const summoningEvents = await getHeroSummonedEvents(2_703_000, 2_703_999, () => getSerendaleProvider());
+
+            expect(summoningEvents).toEqual([]);
+        });
+
+        it("should receive empty array for no events (CV)", async () => {
+            const summoningEvents = await getHeroSummonedEvents(2_703_000, 2_703_999, () => getCrystalvaleProvider());
+
+            expect(summoningEvents).toEqual([]);
         });
 
     });

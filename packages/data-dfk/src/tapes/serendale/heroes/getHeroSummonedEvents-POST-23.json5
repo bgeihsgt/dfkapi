@@ -1,0 +1,88 @@
+{
+    meta: {
+        createdAt: '2022-06-01T20:51:57.585Z',
+        host: 'https://api.harmony.one/',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/',
+        method: 'POST',
+        body: {
+            method: 'eth_getLogs',
+            params: [
+                {
+                    fromBlock: '0x17d9f50',
+                    toBlock: '0x17da018',
+                    address: '0x5f753dcdf9b1ad9aabc1346614d1f4746fd6ce5c',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                    ],
+                },
+            ],
+            id: 44,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx',
+            ],
+            date: [
+                'Wed, 01 Jun 2022 20:51:57 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'content-length': [
+                '1618',
+            ],
+            vary: [
+                'Origin',
+            ],
+            connection: [
+                'close',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 44,
+            result: [
+                {
+                    address: '0x5f753dcdf9b1ad9aabc1346614d1f4746fd6ce5c',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                        '0x0000000000000000000000004082e997ec720a4894efec53b0d9aabfeea44cbe',
+                    ],
+                    data: '0x0000000000000000000000000000000000000000000000000000000000028c20000000000000000000000000000000000000000000000000000000000002845800000000000000000000000000000000000000000000000000000000000285b60000318b200005108c0384672904711c602984140806418cc39c47009c602846000018c233900131cc13080221c86100e7110a5728c8101441944328c7010c23',
+                    blockNumber: '0x17d9f66',
+                    transactionHash: '0xbc95e82869e0485443aa67f438228d9bcef617607045264605ec3fb2306a6598',
+                    transactionIndex: '0x5',
+                    blockHash: '0x2bdf2e6456589dd80b2b77db74351dae340271b16e97baef6631df71752232bb',
+                    logIndex: '0xa',
+                    removed: false,
+                },
+                {
+                    address: '0x5f753dcdf9b1ad9aabc1346614d1f4746fd6ce5c',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                        '0x000000000000000000000000dc35803807f7ca8337df9f6f7e5d3a450e41be21',
+                    ],
+                    data: '0x0000000000000000000000000000000000000000000000000000000000028c2100000000000000000000000000000000000000000000000000000000000004840000000000000000000000000000000000000000000000000000000000000547000001c2719c223008030c2710041284c519ca36088c22904310a4410cc00882000008461114c211c01709c610482114e510043410c87380a11002114e201462',
+                    blockNumber: '0x17d9f6d',
+                    transactionHash: '0x94e1bbf78f8d10dddffc809ea4e9fb1ce8b739b2dad3f3b46e7e666b8de52e73',
+                    transactionIndex: '0x8',
+                    blockHash: '0x20e65fa50dcad41f8ecf7c980d92586bc2aa6523c1762fd694cca477767ff714',
+                    logIndex: '0xa1',
+                    removed: false,
+                },
+            ],
+        },
+    },
+}

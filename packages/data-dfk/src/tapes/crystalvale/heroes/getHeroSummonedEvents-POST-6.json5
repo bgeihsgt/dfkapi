@@ -1,0 +1,91 @@
+{
+    meta: {
+        createdAt: '2022-06-01T19:40:02.947Z',
+        host: 'https://subnets.avax.network',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/defi-kingdoms/dfk-chain/rpc',
+        method: 'POST',
+        body: {
+            method: 'eth_getLogs',
+            params: [
+                {
+                    fromBlock: '0x293e98',
+                    toBlock: '0x29427f',
+                    address: '0xeb9b61b145d6489be575d3603f4a704810e143df',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                    ],
+                },
+            ],
+            id: 44,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            date: [
+                'Wed, 01 Jun 2022 19:40:03 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'content-length': [
+                '37',
+            ],
+            connection: [
+                'close',
+            ],
+            'cf-ray': [
+                '714a6b376f1f9818-SJC',
+            ],
+            'cache-control': [
+                'private, no-cache',
+            ],
+            'set-cookie': [
+                'api-session=1654112404.183.139.846309|43948158efdd1740d11560e589c8148c; Max-Age=172800; Path=/; Secure; HttpOnly; SameSite=None',
+                '__cflb=0H28vrgscirbvDutDA3LhTU7NwuystECKhrCFeRkGVz; SameSite=Lax; path=/; expires=Thu, 02-Jun-22 18:40:03 GMT; HttpOnly',
+                '__cf_bm=YOQAC_2zW3RuItDBdGp0zTJKWk0QGHNnoIVsJu4ZTGM-1654112403-0-Ad6+udPYeIbk4lKPiV44GCMN4+c9/JvXxNyBhRuUVvOw4zYdAeJjEuuLSqKqhXDzfwe62qQ6gDEkYu5MaatIjY8=; path=/; expires=Wed, 01-Jun-22 20:10:03 GMT; domain=.avax.network; HttpOnly; Secure; SameSite=None',
+            ],
+            'strict-transport-security': [
+                'max-age=0',
+            ],
+            vary: [
+                'Origin',
+            ],
+            'cf-cache-status': [
+                'DYNAMIC',
+            ],
+            'access-control-allow-credentials': [
+                'true',
+            ],
+            'expect-ct': [
+                'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+            ],
+            'x-cache': [
+                'MISS',
+            ],
+            'x-execution-weight': [
+                'logs',
+            ],
+            'x-robots-tag': [
+                'noindex',
+            ],
+            server: [
+                'cloudflare',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 44,
+            result: [],
+        },
+    },
+}

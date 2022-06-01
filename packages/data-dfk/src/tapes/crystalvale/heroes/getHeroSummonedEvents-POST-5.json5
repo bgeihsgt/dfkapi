@@ -1,0 +1,106 @@
+{
+    meta: {
+        createdAt: '2022-06-01T19:35:46.236Z',
+        host: 'https://subnets.avax.network',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/defi-kingdoms/dfk-chain/rpc',
+        method: 'POST',
+        body: {
+            method: 'eth_getLogs',
+            params: [
+                {
+                    fromBlock: '0x294280',
+                    toBlock: '0x294667',
+                    address: '0xeb9b61b145d6489be575d3603f4a704810e143df',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                    ],
+                },
+            ],
+            id: 44,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            date: [
+                'Wed, 01 Jun 2022 19:35:46 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'content-length': [
+                '825',
+            ],
+            connection: [
+                'close',
+            ],
+            'cf-ray': [
+                '714a64f2c9af96e4-SJC',
+            ],
+            'cache-control': [
+                'private, no-cache',
+            ],
+            'set-cookie': [
+                'api-session=1654112147.428.139.510877|43948158efdd1740d11560e589c8148c; Max-Age=172800; Path=/; Secure; HttpOnly; SameSite=None',
+                '__cflb=0H28vrgscirbvDutDA3LhTU7NwuystEBaYvefPAVPUY; SameSite=Lax; path=/; expires=Thu, 02-Jun-22 18:35:46 GMT; HttpOnly',
+                '__cf_bm=qROy95i5mzK1whkoCiBs9P.1p9dhP8Z9lAX7ICXfGYI-1654112146-0-AfZAOCKadugrpIhXOInNJHmjyKz1CTuIP88x6QJCjSUH/Tm2JBTBSCNx3tSbs7nIIQm9pUaJ87uGdW4+lXjErGg=; path=/; expires=Wed, 01-Jun-22 20:05:46 GMT; domain=.avax.network; HttpOnly; Secure; SameSite=None',
+            ],
+            'strict-transport-security': [
+                'max-age=0',
+            ],
+            vary: [
+                'Origin',
+            ],
+            'cf-cache-status': [
+                'DYNAMIC',
+            ],
+            'access-control-allow-credentials': [
+                'true',
+            ],
+            'expect-ct': [
+                'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+            ],
+            'x-cache': [
+                'MISS',
+            ],
+            'x-execution-weight': [
+                'logs',
+            ],
+            'x-robots-tag': [
+                'noindex',
+            ],
+            server: [
+                'cloudflare',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 44,
+            result: [
+                {
+                    address: '0xeb9b61b145d6489be575d3603f4a704810e143df',
+                    topics: [
+                        '0xef277373d709abc6be9d4926ac62b54991f4de2b6f8718079ae3d735ded22340',
+                        '0x00000000000000000000000099c71df5b17538b0cf10f6fddad18766349a7606',
+                    ],
+                    data: '0x000000000000000000000000000000000000000000000000000000e8d4a513c3000000000000000000000000000000000000000000000000000000000001e9dc0000000000000000000000000000000000000000000000000000000000021e0b0000308c1290a1000c2304a420ca720841190867388c7294a188812098c308c2000018c6318c40288e3729c2110063000738821418847118209c8411c6301c04',
+                    blockNumber: '0x29449b',
+                    transactionHash: '0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6',
+                    transactionIndex: '0x1',
+                    blockHash: '0xd4a74a67f28fcd3ef360b8c28a3e9a42dcfd0f37068f46e447b941c7d0c60c10',
+                    logIndex: '0x0',
+                    removed: false,
+                },
+            ],
+        },
+    },
+}
