@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "knex": "^2.1.0",
+    "p-map": "^4.0.0",
     "pg": "^8.7.3"
   }
 }

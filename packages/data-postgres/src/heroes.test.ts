@@ -1,7 +1,7 @@
 import knex from './knex';
 
 import { makeHero, makeSummoningEvent } from "@dfkapi/data-core/src/testdata";
-import { upsertHero, getHero, upsertSummoningEvent } from './heroes';
+import { upsertHero, getHero, upsertSummoningEvent, upsertSummoningEvents } from './heroes';
 
 describe('Heroes Postgres API', () => {
 
@@ -46,7 +46,7 @@ describe('Heroes Postgres API', () => {
     describe("upsertSummoningEvent", () => {
         beforeEach(async () => {
             await knex('summoning_events').truncate();
-        })
+        });
 
         it("should create an event if it does not exist", async () => {
             const summoningEvent = makeSummoningEvent();
@@ -96,6 +96,26 @@ describe('Heroes Postgres API', () => {
             expect(events).toHaveLength(1);
 
             expect(events[0].hero_id).toEqual("1234");
-        })
+        });
+    });
+
+    describe("upsertSummoningEvents", () => {
+        beforeEach(async () => {
+            await knex('summoning_events').truncate();
+        });
+
+        it("should upsert many events", async () => {
+            const summoningEvents = [
+                makeSummoningEvent({ logIndex: 1 }),
+                makeSummoningEvent({ logIndex: 2 }),
+                makeSummoningEvent({ logIndex: 3 })
+            ];
+
+            await upsertSummoningEvents(summoningEvents, 0);
+
+            const events = await knex("summoning_events").select();
+            
+            expect(events).toHaveLength(3);
+        });
     });
 });

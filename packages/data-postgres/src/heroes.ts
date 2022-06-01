@@ -1,6 +1,7 @@
 import { BlockchainEvent, Hero, HeroSummoningEvent } from "@dfkapi/data-core";
 import { unixTimeToTimestamp, timestampToUnixTime } from "./datetime";
 import knex from './knex';
+import pMap from 'p-map';
 
 function heroToPgHero(hero: Hero): Object {
     return {
@@ -253,4 +254,12 @@ export async function upsertSummoningEvent(summoningEvent: BlockchainEvent<HeroS
     }
 
     await knex('summoning_events').insert(pgEvent).onConflict(["chain_id", "transaction_hash", "log_index"]).merge();
+}
+
+export async function upsertSummoningEvents(summoningEvents: BlockchainEvent<HeroSummoningEvent>[], chainId: number) {
+    const mapper = async (e: BlockchainEvent<HeroSummoningEvent>) => {
+        await upsertSummoningEvent(e, chainId);
+    }
+
+    await pMap(summoningEvents, mapper, { concurrency: 10 });
 }

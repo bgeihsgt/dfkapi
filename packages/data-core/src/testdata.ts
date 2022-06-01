@@ -86,12 +86,16 @@ export function makeHero(options?: HeroOptions): Hero {
     };
 }
 
-export function makeSummoningEvent(): BlockchainEvent<HeroSummoningEvent> {
+interface SummoningEventOptions {
+    logIndex?: number
+}
+
+export function makeSummoningEvent(options?: SummoningEventOptions): BlockchainEvent<HeroSummoningEvent> {
     return {
         blockNumber: 2704539,
         address: "0xEb9B61B145D6489Be575D3603F4a704810e143dF",
         blockHash: "0xd4a74a67f28fcd3ef360b8c28a3e9a42dcfd0f37068f46e447b941c7d0c60c10",
-        logIndex: 0,
+        logIndex: options?.logIndex || 0,
         rawData: "0x000000000000000000000000000000000000000000000000000000e8d4a513c3000000000000000000000000000000000000000000000000000000000001e9dc0000000000000000000000000000000000000000000000000000000000021e0b0000308c1290a1000c2304a420ca720841190867388c7294a188812098c308c2000018c6318c40288e3729c2110063000738821418847118209c8411c6301c04",
         removed: false,
         transactionHash: "0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6",
