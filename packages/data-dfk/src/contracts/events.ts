@@ -6,6 +6,18 @@ interface BlockRange {
     to: number
 }
 
+export interface BlockchainEvent<T> {
+    blockNumber: number,
+    blockHash: string,
+    transactionIndex: number,
+    removed: boolean,
+    address: string,
+    rawData: string,
+    transactionHash: string,
+    logIndex: number,
+    data: T
+}
+
 export function splitBlockRanges(fromBlock: number, toBlock: number): Array<BlockRange> {
     const CHUNK_SIZE = 1000;
     let result = [];
@@ -23,7 +35,7 @@ export function splitBlockRanges(fromBlock: number, toBlock: number): Array<Bloc
 export async function getEventsParallelized(getContract: () => Contract, getFilter: (c: Contract) => EventFilter, fromBlock: number, toBlock: number): Promise<Event[]> {
     const mapper = async (blockRange: BlockRange): Promise<Event[]> => {
         const contract = getContract();
-        
+
         return await contract.queryFilter(getFilter(contract), blockRange.from, blockRange.to);
     };
 

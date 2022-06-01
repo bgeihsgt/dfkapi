@@ -2,6 +2,7 @@ import { BigNumber, Event } from "ethers";
 import { Provider } from "./contracts/provider";
 import { getHero as getContractHero, getHeroSummonedEvents as getContractHeroSummonedEvents, ContractArray } from "./contracts/hero";
 import { Hero, HeroRarity } from '@dfkapi/data-core';
+import { BlockchainEvent } from "./contracts/events";
 import pMap from 'p-map';
 
 
@@ -130,18 +131,6 @@ export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider
     } 
 
     return await pMap(ids, mapper, { concurrency: 10 });
-}
-
-interface BlockchainEvent<T> {
-    blockNumber: number,
-    blockHash: string,
-    transactionIndex: number,
-    removed: boolean,
-    address: string,
-    rawData: string,
-    transactionHash: string,
-    logIndex: number,
-    data: T
 }
 
 interface HeroSummoningEvent {
