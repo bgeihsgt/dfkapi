@@ -80,3 +80,24 @@ export interface Hero {
         fishing: number,
     }
 }
+
+export interface BlockchainEvent<T> {
+    blockNumber: number,
+    blockHash: string,
+    transactionIndex: number,
+    removed: boolean,
+    address: string,
+    rawData: string,
+    transactionHash: string,
+    logIndex: number,
+    data: T
+}
+
+export interface HeroSummoningEvent {
+    owner: string,
+    heroId: bigint,
+    summonerId: bigint,
+    assistantId: bigint,
+    statGenes: bigint,
+    visualGenes: bigint
+}

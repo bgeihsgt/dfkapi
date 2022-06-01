@@ -1,3 +1,4 @@
+import { BlockchainEvent, HeroSummoningEvent } from "../lib";
 import { Hero, HeroClass, HeroStatus, HeroRarity } from "./";
 
 interface HeroOptions {
@@ -81,6 +82,27 @@ export function makeHero(options?: HeroOptions): Hero {
             gardening: 0,
             foraging: 0,
             fishing: 164,
+        }
+    };
+}
+
+export function makeSummoningEvent(): BlockchainEvent<HeroSummoningEvent> {
+    return {
+        blockNumber: 2704539,
+        address: "0xEb9B61B145D6489Be575D3603F4a704810e143dF",
+        blockHash: "0xd4a74a67f28fcd3ef360b8c28a3e9a42dcfd0f37068f46e447b941c7d0c60c10",
+        logIndex: 0,
+        rawData: "0x000000000000000000000000000000000000000000000000000000e8d4a513c3000000000000000000000000000000000000000000000000000000000001e9dc0000000000000000000000000000000000000000000000000000000000021e0b0000308c1290a1000c2304a420ca720841190867388c7294a188812098c308c2000018c6318c40288e3729c2110063000738821418847118209c8411c6301c04",
+        removed: false,
+        transactionHash: "0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6",
+        transactionIndex: 1,
+        data: {
+            owner: '0x99c71df5B17538b0CF10F6FdDaD18766349A7606',
+            heroId: 1000000000963n,
+            summonerId: 125404n,
+            assistantId: 138763n,
+            statGenes: 335060172297479571679811471009455345990633112149212708157934403571615938n,
+            visualGenes: 170985199761119229137574546544909115454800841947938051489981624386329604n
         }
     };
 }

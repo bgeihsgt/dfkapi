@@ -6,18 +6,6 @@ interface BlockRange {
     to: number
 }
 
-export interface BlockchainEvent<T> {
-    blockNumber: number,
-    blockHash: string,
-    transactionIndex: number,
-    removed: boolean,
-    address: string,
-    rawData: string,
-    transactionHash: string,
-    logIndex: number,
-    data: T
-}
-
 export function splitBlockRanges(fromBlock: number, toBlock: number): Array<BlockRange> {
     const CHUNK_SIZE = 1000;
     let result = [];

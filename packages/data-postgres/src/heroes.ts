@@ -1,4 +1,4 @@
-import { Hero } from "@dfkapi/data-core";
+import { BlockchainEvent, Hero, HeroSummoningEvent } from "@dfkapi/data-core";
 import { unixTimeToTimestamp, timestampToUnixTime } from "./datetime";
 import knex from './knex';
 
@@ -233,4 +233,24 @@ export async function getHero(id: bigint): Promise<Hero> {
     ]).where('id', id.toString());
 
     return pgHeroToHero(pgHero[0]);
+}
+
+export async function upsertSummoningEvent(summoningEvent: BlockchainEvent<HeroSummoningEvent>, chainId: number) {
+    const pgEvent = {
+        transaction_hash: summoningEvent.transactionHash,
+        block_number: summoningEvent.blockNumber,
+        removed: summoningEvent.removed,
+        address: summoningEvent.address,
+        log_index: summoningEvent.logIndex,
+        transaction_index: summoningEvent.transactionIndex,
+        owner: summoningEvent.data.owner,
+        hero_id: summoningEvent.data.heroId,
+        summoner_id: summoningEvent.data.summonerId,
+        assistant_id: summoningEvent.data.assistantId,
+        stat_genes: summoningEvent.data.statGenes,
+        visual_genes: summoningEvent.data.visualGenes,
+        chain_id: chainId
+    }
+
+    await knex('summoning_events').insert(pgEvent).onConflict(["chain_id", "transaction_hash", "log_index"]).merge();
 }
