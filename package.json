@@ -11,7 +11,8 @@
     "start:worker": "node ./packages/worker/lib/server.js",
     "migrate:make": "knex migrate:make --knexfile packages/data-postgres/src/knex/knexfile.ts -x ts",
     "migrate:latest": "knex migrate:latest --knexfile packages/data-postgres/src/knex/knexfile.ts",
-    "migrate:rollback": "knex migrate:rollback --knexfile packages/data-postgres/src/knex/knexfile.ts"
+    "migrate:rollback": "knex migrate:rollback --knexfile packages/data-postgres/src/knex/knexfile.ts",
+    "migrate:rollback_test": "export NODE_ENV=test; npm run migrate:rollback"
   },
   "author": "",
   "license": "ISC",
