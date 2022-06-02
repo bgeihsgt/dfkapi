@@ -27,7 +27,7 @@ async function importEvents() {
         logger.info(`Retrieving hero summoned events for blocks ${blockRange.from} to ${blockRange.to}`);
         const heroSummonedEvents = await dataDfk.getHeroSummonedEvents(blockRange.from, blockRange.to, dataDfk.getSerendaleProvider);
         logger.info(`Upserting ${heroSummonedEvents.length} for blocks ${blockRange.from} to ${blockRange.to}`);
-        await dataPostgres.upsertSummoningEvents(heroSummonedEvents, SERENDALE_CHAIN_ID);
+        await dataPostgres.upsertHeroSummonedEvents(heroSummonedEvents, SERENDALE_CHAIN_ID);
     }
 }
 

@@ -1,4 +1,4 @@
-import { BlockchainEvent, HeroSummoningEvent } from "../lib";
+import { BlockchainEvent, HeroSummonedEvent } from "../lib";
 import { Hero, HeroClass, HeroStatus, HeroRarity } from "./";
 
 interface HeroOptions {
@@ -86,11 +86,11 @@ export function makeHero(options?: HeroOptions): Hero {
     };
 }
 
-interface SummoningEventOptions {
+interface HeroSummonedEventOptions {
     logIndex?: number
 }
 
-export function makeSummoningEvent(options?: SummoningEventOptions): BlockchainEvent<HeroSummoningEvent> {
+export function makeHeroSummonedEvent(options?: HeroSummonedEventOptions): BlockchainEvent<HeroSummonedEvent> {
     return {
         blockNumber: 2704539,
         address: "0xEb9B61B145D6489Be575D3603F4a704810e143dF",

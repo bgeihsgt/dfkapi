@@ -1,4 +1,4 @@
-import { BlockchainEvent, Hero, HeroSummoningEvent } from "@dfkapi/data-core";
+import { BlockchainEvent, Hero, HeroSummonedEvent } from "@dfkapi/data-core";
 import { unixTimeToTimestamp, timestampToUnixTime } from "./datetime";
 import knex from './knex';
 import pMap from 'p-map';
@@ -236,30 +236,30 @@ export async function getHero(id: bigint): Promise<Hero> {
     return pgHeroToHero(pgHero[0]);
 }
 
-export async function upsertSummoningEvent(summoningEvent: BlockchainEvent<HeroSummoningEvent>, chainId: number) {
+export async function upsertHeroSummonedEvent(heroSummonedEvent: BlockchainEvent<HeroSummonedEvent>, chainId: number) {
     const pgEvent = {
-        transaction_hash: summoningEvent.transactionHash,
-        block_number: summoningEvent.blockNumber,
-        removed: summoningEvent.removed,
-        address: summoningEvent.address,
-        log_index: summoningEvent.logIndex,
-        transaction_index: summoningEvent.transactionIndex,
-        owner: summoningEvent.data.owner,
-        hero_id: summoningEvent.data.heroId,
-        summoner_id: summoningEvent.data.summonerId,
-        assistant_id: summoningEvent.data.assistantId,
-        stat_genes: summoningEvent.data.statGenes,
-        visual_genes: summoningEvent.data.visualGenes,
+        transaction_hash: heroSummonedEvent.transactionHash,
+        block_number: heroSummonedEvent.blockNumber,
+        removed: heroSummonedEvent.removed,
+        address: heroSummonedEvent.address,
+        log_index: heroSummonedEvent.logIndex,
+        transaction_index: heroSummonedEvent.transactionIndex,
+        owner: heroSummonedEvent.data.owner,
+        hero_id: heroSummonedEvent.data.heroId,
+        summoner_id: heroSummonedEvent.data.summonerId,
+        assistant_id: heroSummonedEvent.data.assistantId,
+        stat_genes: heroSummonedEvent.data.statGenes,
+        visual_genes: heroSummonedEvent.data.visualGenes,
         chain_id: chainId
     }
 
-    await knex('summoning_events').insert(pgEvent).onConflict(["chain_id", "transaction_hash", "log_index"]).merge();
+    await knex('hero_summoned_events').insert(pgEvent).onConflict(["chain_id", "transaction_hash", "log_index"]).merge();
 }
 
-export async function upsertSummoningEvents(summoningEvents: BlockchainEvent<HeroSummoningEvent>[], chainId: number) {
-    const mapper = async (e: BlockchainEvent<HeroSummoningEvent>) => {
-        await upsertSummoningEvent(e, chainId);
+export async function upsertHeroSummonedEvents(heroSummonedEvents: BlockchainEvent<HeroSummonedEvent>[], chainId: number) {
+    const mapper = async (e: BlockchainEvent<HeroSummonedEvent>) => {
+        await upsertHeroSummonedEvent(e, chainId);
     }
 
-    await pMap(summoningEvents, mapper, { concurrency: 10 });
+    await pMap(heroSummonedEvents, mapper, { concurrency: 10 });
 }

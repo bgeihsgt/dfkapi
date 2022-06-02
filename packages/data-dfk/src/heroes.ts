@@ -1,7 +1,7 @@
 import { BigNumber, Event } from "ethers";
 import { Provider } from "./contracts/provider";
 import { getHero as getContractHero, getHeroSummonedEvents as getContractHeroSummonedEvents, ContractArray } from "./contracts/hero";
-import { Hero, HeroRarity, BlockchainEvent, HeroSummoningEvent } from '@dfkapi/data-core';
+import { Hero, HeroRarity, BlockchainEvent, HeroSummonedEvent } from '@dfkapi/data-core';
 import pMap from 'p-map';
 
 
@@ -132,9 +132,9 @@ export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider
     return await pMap(ids, mapper, { concurrency: 10 });
 }
 
-function heroSummoningEventFromRawEvent(e: Event): BlockchainEvent<HeroSummoningEvent> {
+function HeroSummonedEventFromRawEvent(e: Event): BlockchainEvent<HeroSummonedEvent> {
     if (!e.args) {
-        throw new Error("Found hero summoning event with no args.");
+        throw new Error("Found hero summoned event with no args.");
     }
 
     return {
@@ -157,12 +157,12 @@ function heroSummoningEventFromRawEvent(e: Event): BlockchainEvent<HeroSummoning
     };
 }
 
-function parseHeroSummoningEvents(rawEvents: Array<Event>): Array<BlockchainEvent<HeroSummoningEvent>> {
-    return rawEvents.map(e => heroSummoningEventFromRawEvent(e));
+function parseHeroSummonedEvents(rawEvents: Array<Event>): Array<BlockchainEvent<HeroSummonedEvent>> {
+    return rawEvents.map(e => HeroSummonedEventFromRawEvent(e));
 }
 
-export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<Array<BlockchainEvent<HeroSummoningEvent>>> {
+export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<Array<BlockchainEvent<HeroSummonedEvent>>> {
     const rawEvents = await getContractHeroSummonedEvents(fromBlock, toBlock, getProvider);
 
-    return parseHeroSummoningEvents(rawEvents);
+    return parseHeroSummonedEvents(rawEvents);
 }

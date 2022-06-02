@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-    return await knex.schema.createTable("summoning_events", table => {
+    return await knex.schema.createTable("hero_summoned_events", table => {
         table.string("transaction_hash", 100).notNullable();
         table.integer("block_number").unsigned().notNullable();
         table.boolean("removed").notNullable();
@@ -23,6 +23,6 @@ export async function up(knex: Knex): Promise<void> {
 
 
 export async function down(knex: Knex): Promise<void> {
-    return knex.schema.dropTable('summoning_events');
+    return knex.schema.dropTable('hero_summoned_events');
 }
 

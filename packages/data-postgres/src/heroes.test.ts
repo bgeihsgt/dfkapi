@@ -1,13 +1,13 @@
 import knex from './knex';
 
-import { makeHero, makeSummoningEvent } from "@dfkapi/data-core/src/testdata";
-import { upsertHero, getHero, upsertSummoningEvent, upsertSummoningEvents } from './heroes';
+import { makeHero, makeHeroSummonedEvent } from "@dfkapi/data-core/src/testdata";
+import { upsertHero, getHero, upsertHeroSummonedEvent, upsertHeroSummonedEvents } from './heroes';
 
 describe('Heroes Postgres API', () => {
 
     beforeAll(async () => {
         await knex('heroes').truncate();
-        await knex('summoning_events').truncate();
+        await knex('hero_summoned_events').truncate();
     });
 
     afterAll(async () => {
@@ -43,17 +43,17 @@ describe('Heroes Postgres API', () => {
         })
     });
 
-    describe("upsertSummoningEvent", () => {
+    describe("upsertHeroSummonedEvent", () => {
         beforeEach(async () => {
-            await knex('summoning_events').truncate();
+            await knex('hero_summoned_events').truncate();
         });
 
         it("should create an event if it does not exist", async () => {
-            const summoningEvent = makeSummoningEvent();
+            const heroSummonedEvent = makeHeroSummonedEvent();
 
-            await upsertSummoningEvent(summoningEvent, 0);
+            await upsertHeroSummonedEvent(heroSummonedEvent, 0);
 
-            const events = await knex("summoning_events").select();
+            const events = await knex("hero_summoned_events").select();
 
             expect(events).toHaveLength(1);
 
@@ -77,21 +77,21 @@ describe('Heroes Postgres API', () => {
         });
 
         it("should update an event on primary key match", async () => {
-            const summoningEvent = makeSummoningEvent();
+            const heroSummonedEvent = makeHeroSummonedEvent();
 
-            await upsertSummoningEvent(summoningEvent, 0);
+            await upsertHeroSummonedEvent(heroSummonedEvent, 0);
 
-            const updatedSummoningEvent = {
-                ...summoningEvent,
+            const updatedHeroSummonedEvent = {
+                ...heroSummonedEvent,
                 data: {
-                    ...summoningEvent.data,
+                    ...heroSummonedEvent.data,
                     heroId: 1234n
                 }
             };
 
-            await upsertSummoningEvent(updatedSummoningEvent, 0);
+            await upsertHeroSummonedEvent(updatedHeroSummonedEvent, 0);
 
-            const events = await knex("summoning_events").select();
+            const events = await knex("hero_summoned_events").select();
 
             expect(events).toHaveLength(1);
 
@@ -99,21 +99,21 @@ describe('Heroes Postgres API', () => {
         });
     });
 
-    describe("upsertSummoningEvents", () => {
+    describe("upsertHeroSummonedEvents", () => {
         beforeEach(async () => {
-            await knex('summoning_events').truncate();
+            await knex('hero_summoned_events').truncate();
         });
 
         it("should upsert many events", async () => {
-            const summoningEvents = [
-                makeSummoningEvent({ logIndex: 1 }),
-                makeSummoningEvent({ logIndex: 2 }),
-                makeSummoningEvent({ logIndex: 3 })
+            const heroSummonedEvents = [
+                makeHeroSummonedEvent({ logIndex: 1 }),
+                makeHeroSummonedEvent({ logIndex: 2 }),
+                makeHeroSummonedEvent({ logIndex: 3 })
             ];
 
-            await upsertSummoningEvents(summoningEvents, 0);
+            await upsertHeroSummonedEvents(heroSummonedEvents, 0);
 
-            const events = await knex("summoning_events").select();
+            const events = await knex("hero_summoned_events").select();
             
             expect(events).toHaveLength(3);
         });

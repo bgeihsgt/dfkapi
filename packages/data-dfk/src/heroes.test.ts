@@ -107,10 +107,10 @@ describe("Heroes data access" , () => {
         });
 
         it("should retrieve the serendale events", async () => {
-            const summoningEvents = await getHeroSummonedEvents(25_000_000, 25_000_999, () => getSerendaleProvider());
+            const heroSummonedEvents = await getHeroSummonedEvents(25_000_000, 25_000_999, () => getSerendaleProvider());
 
-            expect(summoningEvents.length).toBe(10);
-            expect(summoningEvents[0]).toEqual({
+            expect(heroSummonedEvents.length).toBe(10);
+            expect(heroSummonedEvents[0]).toEqual({
                 blockNumber: 25000163,
                 address: "0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C",
                 blockHash: "0x04b8172ed88071f618670431c9e210a91114742a9fdbe30119322abe720d613b",
@@ -128,7 +128,7 @@ describe("Heroes data access" , () => {
                     visualGenes: 57102904853050299955550804663505743829002160563649143990302999558983782n
                 }
             });
-            expect(summoningEvents[9]).toEqual({
+            expect(heroSummonedEvents[9]).toEqual({
                 blockNumber: 25000941,
                 address: "0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C",
                 blockHash: "0x88f680059a42ace8cce6b4984a5ca3ab75c415581233a9b5cacf607477cf4ca7",
@@ -149,10 +149,10 @@ describe("Heroes data access" , () => {
         });
 
         it("should receive crystalvale events", async () => {
-            const summoningEvents = await getHeroSummonedEvents(2_704_000, 2_704_999, () => getCrystalvaleProvider());
+            const heroSummonedEvents = await getHeroSummonedEvents(2_704_000, 2_704_999, () => getCrystalvaleProvider());
 
-            expect(summoningEvents.length).toBe(1);
-            expect(summoningEvents[0]).toEqual({
+            expect(heroSummonedEvents.length).toBe(1);
+            expect(heroSummonedEvents[0]).toEqual({
                 blockNumber: 2704539,
                 address: "0xEb9B61B145D6489Be575D3603F4a704810e143dF",
                 blockHash: "0xd4a74a67f28fcd3ef360b8c28a3e9a42dcfd0f37068f46e447b941c7d0c60c10",
@@ -173,23 +173,23 @@ describe("Heroes data access" , () => {
         });
 
         it("should split blocks distances than 1000 into chunks and run them in parallel", async () => {
-            const summoningEvents = await getHeroSummonedEvents(25_000_000, 25_010_200, () => getSerendaleProvider());
+            const heroSummonedEvents = await getHeroSummonedEvents(25_000_000, 25_010_200, () => getSerendaleProvider());
 
-            expect(summoningEvents.length).toBe(196);
-            expect(summoningEvents[0].data.heroId).toBe(166750n);
-            expect(summoningEvents[195].data.heroId).toBe(166945n)
+            expect(heroSummonedEvents.length).toBe(196);
+            expect(heroSummonedEvents[0].data.heroId).toBe(166750n);
+            expect(heroSummonedEvents[195].data.heroId).toBe(166945n)
         });
 
         it("should receive empty array for no events (SD)", async () => {
-            const summoningEvents = await getHeroSummonedEvents(2_703_000, 2_703_999, () => getSerendaleProvider());
+            const heroSummonedEvents = await getHeroSummonedEvents(2_703_000, 2_703_999, () => getSerendaleProvider());
 
-            expect(summoningEvents).toEqual([]);
+            expect(heroSummonedEvents).toEqual([]);
         });
 
         it("should receive empty array for no events (CV)", async () => {
-            const summoningEvents = await getHeroSummonedEvents(2_703_000, 2_703_999, () => getCrystalvaleProvider());
+            const heroSummonedEvents = await getHeroSummonedEvents(2_703_000, 2_703_999, () => getCrystalvaleProvider());
 
-            expect(summoningEvents).toEqual([]);
+            expect(heroSummonedEvents).toEqual([]);
         });
 
     });

@@ -1,7 +1,7 @@
-import { upsertSummoningEvents } from "./heroes";
+import { upsertHeroSummonedEvents } from "./heroes";
 
 const api = {
-    upsertSummoningEvents
+    upsertHeroSummonedEvents
 };
 
 export default api;

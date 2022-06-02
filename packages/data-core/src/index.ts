@@ -93,7 +93,7 @@ export interface BlockchainEvent<T> {
     data: T
 }
 
-export interface HeroSummoningEvent {
+export interface HeroSummonedEvent {
     owner: string,
     heroId: bigint,
     summonerId: bigint,
