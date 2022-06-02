@@ -1,5 +1,6 @@
 import { Contract, EventFilter, Event } from 'ethers';
 import pMap from 'p-map';
+import { retry } from '@dfkapi/data-core';
 
 interface BlockRange {
     from: number,
@@ -21,9 +22,10 @@ export function splitBlockRanges(fromBlock: number, toBlock: number, chunkSize: 
 
 export async function getEventsParallelized(getContract: () => Contract, getFilter: (c: Contract) => EventFilter, fromBlock: number, toBlock: number): Promise<Event[]> {
     const mapper = async (blockRange: BlockRange): Promise<Event[]> => {
-        const contract = getContract();
-
-        return await contract.queryFilter(getFilter(contract), blockRange.from, blockRange.to);
+        return await retry(async () => {
+            const contract = getContract();
+            return await contract.queryFilter(getFilter(contract), blockRange.from, blockRange.to)
+        });
     };
 
     const CHUNK_SIZE = 1000;

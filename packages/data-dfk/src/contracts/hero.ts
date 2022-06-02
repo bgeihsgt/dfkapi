@@ -1,6 +1,7 @@
 import { ethers, BigNumber } from "ethers";
 import { getEventsParallelized } from "./events";
 import { getSerendaleProvider, Provider, ProviderLocation } from "./provider";
+import { retry } from "@dfkapi/data-core";
 
 const SERENDALE_CONTRACT_ADDRESS = '0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C'
 const CRYSTALVALE_CONTRACT_ADDRESS = '0xEb9B61B145D6489Be575D3603F4a704810e143dF'
@@ -71,9 +72,11 @@ function getContract(getProvider?: () => Provider) {
 export type ContractArray = Array<BigNumber | string | number | boolean | ContractArray>;
 
 export async function getHero(id: bigint, getProvider?: () => Provider): Promise<ContractArray> {
-    const contract = getContract(getProvider);
-
-    return await contract.getHero(id);
+    return await retry(async () => {
+        const contract = getContract(getProvider);
+        
+        return await contract.getHero(id);
+    });
 }
 
 export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<ethers.Event[]> {
