@@ -3,6 +3,7 @@ import pino from 'pino';
 import httpApp from './http';
 import dataDfk from '@dfkapi/data-dfk';
 import dataPostgres from '@dfkapi/data-postgres';
+import { importNewEvents } from './indexer';
 
 const logger = pino();
 
@@ -12,23 +13,8 @@ run()
 
 async function run() {
     startStatusServer();
-    await importEvents();
+    await importNewEvents();
     scheduleCronJobs();
-}
-
-async function importEvents() {
-    const SERENDALE_CHAIN_ID = 0;
-    const provider = dataDfk.getSerendaleProvider();
-    const startingBlock = 0;
-    const latestBlock = await provider.provider.getBlockNumber();
-    const blockRanges = dataDfk.splitBlockRanges(startingBlock, latestBlock, 100_000);
-
-    for (const blockRange of blockRanges) {
-        logger.info(`Retrieving hero summoned events for blocks ${blockRange.from} to ${blockRange.to}`);
-        const heroSummonedEvents = await dataDfk.getHeroSummonedEvents(blockRange.from, blockRange.to, dataDfk.getSerendaleProvider);
-        logger.info(`Upserting ${heroSummonedEvents.length} for blocks ${blockRange.from} to ${blockRange.to}`);
-        await dataPostgres.upsertHeroSummonedEvents(heroSummonedEvents, SERENDALE_CHAIN_ID);
-    }
 }
 
 function startStatusServer() {
