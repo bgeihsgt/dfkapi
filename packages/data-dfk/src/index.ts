@@ -1,12 +1,6 @@
-import { getHeroSummonedEvents } from "./heroes";
-import { getSerendaleProvider } from "./contracts/provider";
-import { splitBlockRanges } from "./contracts/events";
+export { Provider } from "./contracts/provider";
 
-const api = {
-    getHeroSummonedEvents,
-    getSerendaleProvider,
-    splitBlockRanges
-}
-
-export default api;
+export { getHeroSummonedEvents } from "./heroes";
+export { getSerendaleProvider, getCrystalvaleProvider } from "./contracts/provider";
+export { splitBlockRanges } from "./contracts/events";
 
