@@ -7,14 +7,12 @@ function delay(millis: number) {
     });
 }
 
-export async function retry<T>(fn: () => Promise<T>, maxRetries: number): Promise<T> {
+export async function retry<T>(fn: () => Promise<T>, maxRetries: number = 5): Promise<T> {
     try {
-        console.log("Attempting inside retry");
         return await fn();
     }
     catch (e) {
         if (maxRetries > 0) {
-            console.log("retrying because of error: ", e);
             await delay(RETRY_DELAY_SECONDS);
             return await retry(fn, maxRetries - 1);
         } else {
