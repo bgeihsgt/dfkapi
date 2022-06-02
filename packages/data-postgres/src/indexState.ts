@@ -13,7 +13,8 @@ export async function upsertIndexState(state: IndexState) {
             .insert({
                 chain_id: state.chainId,
                 name: state.name,
-                block_number: state.blockNumber
+                block_number: state.blockNumber,
+                updated_at: new Date().toUTCString()
             })
             .onConflict(["chain_id", "name"])
             .merge();

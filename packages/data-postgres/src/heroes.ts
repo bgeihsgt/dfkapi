@@ -255,7 +255,8 @@ export async function upsertHeroSummonedEvent(heroSummonedEvent: BlockchainEvent
         assistant_id: heroSummonedEvent.data.assistantId,
         stat_genes: heroSummonedEvent.data.statGenes,
         visual_genes: heroSummonedEvent.data.visualGenes,
-        chain_id: chainId
+        chain_id: chainId,
+        updated_at: new Date().toUTCString()
     }
 
     await knex('hero_summoned_events').insert(pgEvent).onConflict(["chain_id", "transaction_hash", "log_index"]).merge();
