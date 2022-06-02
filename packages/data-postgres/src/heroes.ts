@@ -2,6 +2,7 @@ import { BlockchainEvent, Hero, HeroSummonedEvent } from "@dfkapi/data-core";
 import { unixTimeToTimestamp, timestampToUnixTime } from "./datetime";
 import knex from './knex';
 import pMap from 'p-map';
+import { Optional } from 'typescript-optional';
 
 function heroToPgHero(hero: Hero): Object {
     return {
@@ -161,7 +162,7 @@ export async function upsertHero(hero: Hero) {
     await knex('heroes').insert(heroToPgHero(hero)).onConflict('id').merge();
 }
 
-export async function getHero(id: bigint): Promise<Hero> {
+export async function getHero(id: bigint): Promise<Optional<Hero>> {
     const pgHero = await knex('heroes').select([
         'id',
         'main_class',
@@ -233,7 +234,11 @@ export async function getHero(id: bigint): Promise<Hero> {
         'current_quest'
     ]).where('id', id.toString());
 
-    return pgHeroToHero(pgHero[0]);
+    if (pgHero.length > 0) {
+        return Optional.of(pgHeroToHero(pgHero[0]));
+    }
+
+    return Optional.empty();
 }
 
 export async function upsertHeroSummonedEvent(heroSummonedEvent: BlockchainEvent<HeroSummonedEvent>, chainId: number) {

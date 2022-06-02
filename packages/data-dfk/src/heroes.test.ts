@@ -25,13 +25,15 @@ describe("Heroes data access" , () => {
 
             const expected = makeHero();
 
-            expect(hero).toEqual(expected);
+            expect(hero.get()).toEqual(expected);
         });
 
-        it("should return an error when the hero id does not exist", async () => {
+        it("should return an empty optional when the hero id does not exist (SD)", async () => {
             const id = BigInt("5000000");
 
-            await expect(getHero(id, () => getSerendaleProvider())).rejects.toThrow("The hero id 5000000 does not exist");
+            const retrived = await getHero(id, () => getSerendaleProvider());
+
+            expect(retrived.isEmpty()).toBe(true);
         });
 
         it("should return a crystalvale hero from crystalvale when it is there", async () => {
@@ -39,13 +41,15 @@ describe("Heroes data access" , () => {
 
             const hero = await getHero(id, () => getCrystalvaleProvider());
 
-            expect(hero.id).toBe(1000000000001n);
+            expect(hero.get().id).toBe(1000000000001n);
         });
 
-        it("should return an error when a crystalvale hero id does not exist", async () => {
+        it("should return an empty optional when the hero id does not exist (CV)", async () => {
             const id = BigInt("5000001");
 
-            await expect(getHero(id, () => getCrystalvaleProvider())).rejects.toThrow("The hero id 5000001 does not exist");
+            const retrived = await getHero(id, () => getCrystalvaleProvider());
+
+            expect(retrived.isEmpty()).toBe(true);
         });
     });
 
@@ -80,18 +84,22 @@ describe("Heroes data access" , () => {
             const heroes = await getHeroes(ids, () => getSerendaleProvider());
 
             expect(heroes).toHaveLength(ids.length);
-            const heroIds = heroes.map(h => h.id);
+            const heroIds = heroes.map(h => h.get().id);
 
             expect(ids.sort()).toEqual(heroIds.sort());
         });
 
-        it("should fail when any of the promises fail", async () => {
+        it("should return proper optionals when for missing ids", async () => {
             const ids = [
                 BigInt("19610"), 
                 BigInt("5000001"), 
             ];
 
-            await expect(getHeroes(ids, () => getSerendaleProvider())).rejects.toThrow("The hero id 5000001 does not exist");
+            const heroes = await getHeroes(ids, () => getSerendaleProvider());
+
+            expect(heroes).toHaveLength(2);
+            expect(heroes[0].isEmpty()).toBe(false);
+            expect(heroes[1].isEmpty()).toBe(true);
         })
     });
 

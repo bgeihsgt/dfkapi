@@ -3,6 +3,7 @@ import { Provider } from "./contracts/provider";
 import { getHero as getContractHero, getHeroSummonedEvents as getContractHeroSummonedEvents, ContractArray } from "./contracts/hero";
 import { Hero, HeroRarity, BlockchainEvent, HeroSummonedEvent } from '@dfkapi/data-core';
 import pMap from 'p-map';
+import { Optional } from 'typescript-optional';
 
 
 function contractHeroToHero(contractHero: ContractArray): Hero {
@@ -105,27 +106,27 @@ function isNotFound(err: any) {
     );
 }
 
-export async function getHero(id: bigint, getProvider?: () => Provider): Promise<Hero> {
+export async function getHero(id: bigint, getProvider?: () => Provider): Promise<Optional<Hero>> {
     try {
         const contractHero = await getContractHero(id, getProvider);
         const mappedHero = contractHeroToHero(contractHero);
 
         if (mappedHero.id === 0n) {
-            throw new Error(`The hero id ${id} does not exist.`);
+            return Optional.empty();
         }
 
-        return contractHeroToHero(contractHero);
+        return Optional.of(contractHeroToHero(contractHero));
     } catch(err) {
         if (isNotFound(err)) {
-            throw new Error(`The hero id ${id} does not exist.`);
+            return Optional.empty();
         }
 
         throw err;
     }
 }
 
-export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider): Promise<Array<Hero>> {
-    const mapper = async (id: bigint): Promise<Hero> => {
+export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider): Promise<Array<Optional<Hero>>> {
+    const mapper = async (id: bigint): Promise<Optional<Hero>> => {
         return await getHero(id, getProvider);
     } 
 

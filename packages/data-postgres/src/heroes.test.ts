@@ -22,7 +22,7 @@ describe('Heroes Postgres API', () => {
 
             const actual = await getHero(hero.id);
 
-            expect(actual).toEqual(hero);
+            expect(actual.get()).toEqual(hero);
         });
 
         it("should update the hero if it already exists", async () => {
@@ -39,7 +39,7 @@ describe('Heroes Postgres API', () => {
 
             const actual = await getHero(hero.id);
 
-            expect(actual).toEqual(updatedHero);
+            expect(actual.get()).toEqual(updatedHero);
         })
     });
 
@@ -116,6 +116,14 @@ describe('Heroes Postgres API', () => {
             const events = await knex("hero_summoned_events").select();
             
             expect(events).toHaveLength(3);
+        });
+    });
+
+    describe("getHero", () => {
+        it("should return empty Optional if the hero id does not exist", async () => {
+            const retrieved = await getHero(90909090n);
+
+            expect(retrieved.isEmpty()).toBe(true);
         });
     });
 });

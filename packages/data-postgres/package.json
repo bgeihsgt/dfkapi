@@ -12,6 +12,7 @@
   "dependencies": {
     "knex": "^2.1.0",
     "p-map": "^4.0.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "typescript-optional": "^2.0.1"
   }
 }
