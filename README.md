@@ -1,8 +1,10 @@
 # Overview
 
-DISCLAIMER: This repository is very much a work in progress, but I have made it public so the DFK community can see it make progress in the open.
+*DISCLAIMER: This repository is very much a work in progress, but I have made it public so the DFK community can see it make progress in the open.*
 
-This is a monorepo that contains packages to expose a REST & GraphQL API to the DFK commmunity. These are the packages:
+This is a monorepo that contains packages to index DFK blockchain data into a Postgres database and expose the Postgres data as a REST & GraphQL API endpoint. You can find more information about this project at https://build.defikingdoms.com/t/dfk-community-extended-api/355
+
+These are the packages:
 
 - `packages/api`: Exposes the REST and GraphQL endpoints. This just contains stubs right now, but they will expose the Postgres data in JSON-API and GraphQL formats.
 - `packages/worker`: Application that indexes DFK blockchains into a Postgres database.
