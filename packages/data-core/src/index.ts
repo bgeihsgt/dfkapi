@@ -32,6 +32,11 @@ export interface HeroStatGrowth {
     mpLarge: number
 }
 
+export interface HeroChainInfo {
+    summonedChainId: number,
+    currentChainId: number
+}
+
 export interface Hero {
     id: bigint,
     rarity: HeroRarity,
@@ -78,7 +83,8 @@ export interface Hero {
         gardening: number,
         foraging: number,
         fishing: number,
-    }
+    },
+    chainInfo?: HeroChainInfo
 }
 
 export interface BlockchainEvent<T> {

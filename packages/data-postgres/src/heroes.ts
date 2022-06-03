@@ -1,10 +1,10 @@
-import { BlockchainEvent, Hero, HeroSummonedEvent } from "@dfkapi/data-core";
+import { BlockchainEvent, Hero, HeroSummonedEvent, HeroChainInfo } from "@dfkapi/data-core";
 import { unixTimeToTimestamp, timestampToUnixTime } from "./datetime";
 import knex from './knex';
 import pMap from 'p-map';
 import { Optional } from 'typescript-optional';
 
-function heroToPgHero(hero: Hero): Object {
+function heroToPgHero(hero: Hero, chainInfo: HeroChainInfo): Object {
     return {
         id: hero.id,
         main_class: hero.mainClass,
@@ -73,7 +73,10 @@ function heroToPgHero(hero: Hero): Object {
         first_name: hero.firstName,
         last_name: hero.lastName,
         shiny_style: hero.shinyStyle,
-        current_quest: hero.currentQuest
+        current_quest: hero.currentQuest,
+        current_chain_id: chainInfo.currentChainId,
+        summoned_chain_id: chainInfo.summonedChainId,
+        updated_at: new Date().toUTCString()
     };
 }
 
@@ -154,12 +157,16 @@ function pgHeroToHero(pgHero: any): Hero {
         firstName: pgHero.first_name,
         lastName: pgHero.last_name,
         shinyStyle: pgHero.shiny_style,
-        currentQuest: pgHero.current_quest
+        currentQuest: pgHero.current_quest,
+        chainInfo: {
+            summonedChainId: pgHero.summoned_chain_id,
+            currentChainId: pgHero.current_chain_id
+        }
     };
 }
 
-export async function upsertHero(hero: Hero) {
-    await knex('heroes').insert(heroToPgHero(hero)).onConflict('id').merge();
+export async function upsertHero(hero: Hero, chainInfo: HeroChainInfo) {
+    await knex('heroes').insert(heroToPgHero(hero, chainInfo)).onConflict('id').merge();
 }
 
 export async function getHero(id: bigint): Promise<Optional<Hero>> {
@@ -231,7 +238,9 @@ export async function getHero(id: bigint): Promise<Optional<Hero>> {
         'first_name',
         'last_name',
         'shiny_style',
-        'current_quest'
+        'current_quest',
+        "summoned_chain_id",
+        "current_chain_id"
     ]).where('id', id.toString());
 
     if (pgHero.length > 0) {

@@ -18,28 +18,40 @@ describe('Heroes Postgres API', () => {
         it("should create a hero if it does not exist", async () => {
             const hero = makeHero({ id: 16639n });
 
-            await upsertHero(hero);
+            await upsertHero(hero, { currentChainId: 0, summonedChainId: 1 });
 
             const actual = await getHero(hero.id);
 
-            expect(actual.get()).toEqual(hero);
+            expect(actual.get()).toEqual({
+                ...hero,
+                chainInfo: {
+                    currentChainId: 0,
+                    summonedChainId: 1
+                }
+            });
         });
 
         it("should update the hero if it already exists", async () => {
             const hero = makeHero({ id: 20000n });
 
-            await upsertHero(hero);
+            await upsertHero(hero, { currentChainId: 0, summonedChainId: 0 });
 
             const updatedHero = {
                 ...hero,
                 xp: hero.xp + 1n
             };
 
-            await upsertHero(updatedHero);
+            await upsertHero(updatedHero, { currentChainId: 0, summonedChainId: 0 });
 
             const actual = await getHero(hero.id);
 
-            expect(actual.get()).toEqual(updatedHero);
+            expect(actual.get()).toEqual({
+                ...updatedHero,
+                chainInfo: {
+                    currentChainId: 0,
+                    summonedChainId: 0
+                }
+            });
         })
     });
 
