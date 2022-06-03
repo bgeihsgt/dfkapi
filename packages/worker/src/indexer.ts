@@ -55,7 +55,7 @@ async function importSerendaleEvents() {
             chainId,
             getProvider,
             name: "HeroSummoned",
-            blockChunkSize: 100_000,
+            blockChunkSize: 5000,
             getEvents: getHeroSummonedEvents,
             upsertEvents: upsertHeroSummonedEvents
         }
@@ -75,7 +75,7 @@ async function importCrystalvaleEvents() {
             chainId,
             getProvider,
             name: "HeroSummoned",
-            blockChunkSize: 100_000,
+            blockChunkSize: 5000,
             getEvents: getHeroSummonedEvents,
             upsertEvents: upsertHeroSummonedEvents
         }
