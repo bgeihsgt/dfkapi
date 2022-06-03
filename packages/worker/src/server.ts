@@ -26,7 +26,7 @@ function startStatusServer() {
 
 
 function scheduleCronJobs() {
-    const everyFiveMinutes = "/5 * * * *";
+    const everyFiveMinutes = "*/5 * * * *";
     schedule.scheduleJob(everyFiveMinutes, async () => {
         await importNewEvents();
         await importNewlySummonedHeroes();
