@@ -263,7 +263,6 @@ describe('Heroes Postgres API', () => {
             const ids = await getSummonedHeroIdsWithNoHeroRecord(0, 1001n, 3);
 
             expect(ids).toEqual([
-                1001n,
                 1002n,
                 10000n
             ]);
