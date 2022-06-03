@@ -87,7 +87,8 @@ export function makeHero(options?: HeroOptions): Hero {
 }
 
 interface HeroSummonedEventOptions {
-    logIndex?: number
+    logIndex?: number,
+    heroId?: bigint
 }
 
 export function makeHeroSummonedEvent(options?: HeroSummonedEventOptions): BlockchainEvent<HeroSummonedEvent> {
@@ -102,7 +103,7 @@ export function makeHeroSummonedEvent(options?: HeroSummonedEventOptions): Block
         transactionIndex: 1,
         data: {
             owner: '0x99c71df5B17538b0CF10F6FdDaD18766349A7606',
-            heroId: 1000000000963n,
+            heroId: options?.heroId || 1000000000963n,
             summonerId: 125404n,
             assistantId: 138763n,
             statGenes: 335060172297479571679811471009455345990633112149212708157934403571615938n,

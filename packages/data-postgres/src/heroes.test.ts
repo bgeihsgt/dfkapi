@@ -1,7 +1,7 @@
 import knex from './knex';
 
 import { makeHero, makeHeroSummonedEvent } from "@dfkapi/data-core/src/testdata";
-import { upsertHero, getHero, upsertHeroSummonedEvent, upsertHeroSummonedEvents } from './heroes';
+import { upsertHero, getHero, upsertHeroSummonedEvent, upsertHeroSummonedEvents, paginateAllSummonedHeroIds } from './heroes';
 
 describe('Heroes Postgres API', () => {
 
@@ -124,6 +124,56 @@ describe('Heroes Postgres API', () => {
             const retrieved = await getHero(90909090n);
 
             expect(retrieved.isEmpty()).toBe(true);
+        });
+    });
+
+    describe("paginateAllSummonedHeroIds", () => {
+        beforeEach(async () => {
+            await knex('hero_summoned_events').truncate();
+        });
+
+        it("should retrieve all hero ids in order in chunks from the given chainId", async () => {
+            const heroSummonedEvents = [
+                makeHeroSummonedEvent({ logIndex: 1, heroId: 1000n }),
+                makeHeroSummonedEvent({ logIndex: 2, heroId: 997n }),
+                makeHeroSummonedEvent({ logIndex: 3, heroId: 34n }),
+                makeHeroSummonedEvent({ logIndex: 4, heroId: 1001n }),
+                makeHeroSummonedEvent({ logIndex: 21, heroId: 1002n }),
+                makeHeroSummonedEvent({ logIndex: 32, heroId: 3n }),
+                makeHeroSummonedEvent({ logIndex: 49, heroId: 4n }),
+                makeHeroSummonedEvent({ logIndex: 94, heroId: 2n }),
+                makeHeroSummonedEvent({ logIndex: 99, heroId: 1n }),
+                makeHeroSummonedEvent({ logIndex: 101, heroId: 10000n }),
+            ];
+
+            const otherChainEvents = [
+                makeHeroSummonedEvent({ logIndex: 10, heroId: 100_000_000n }),
+            ];
+
+            await upsertHeroSummonedEvents(heroSummonedEvents, 0);
+            await upsertHeroSummonedEvents(otherChainEvents, 1);
+
+            let collectedIds: bigint[] = [];
+            let timesCalled = 0;
+            await paginateAllSummonedHeroIds(0, async ids => {
+                collectedIds = collectedIds.concat(ids);
+                timesCalled++;
+            }, 3);
+
+            expect(collectedIds).toEqual([
+                1n,
+                2n,
+                3n,
+                4n,
+                34n,
+                997n,
+                1000n,
+                1001n,
+                1002n,
+                10000n
+            ]);
+            expect(timesCalled).toBe(4);
+
         });
     });
 });

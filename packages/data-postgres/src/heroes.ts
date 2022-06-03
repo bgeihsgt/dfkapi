@@ -269,3 +269,23 @@ export async function upsertHeroSummonedEvents(heroSummonedEvents: BlockchainEve
 
     await pMap(heroSummonedEvents, mapper, { concurrency: 10 });
 }
+
+export async function paginateAllSummonedHeroIds(chainId: number, callback: (ids: bigint[]) => Promise<void>, pageSize: number = 1000) {
+    let results = [];
+    let offset = 0;
+
+    do {
+        results = await knex("hero_summoned_events")
+            .select("hero_id")
+            .where("chain_id", chainId)
+            .orderBy("hero_id")
+            .offset(offset)
+            .limit(pageSize);
+
+        offset += pageSize;
+
+        if (results.length > 0) {
+            callback(results.map(r => BigInt(r.hero_id)));
+        }
+    } while(results.length > 0);
+}
