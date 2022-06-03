@@ -1,7 +1,7 @@
 import knex from './knex';
 
 import { makeHero, makeHeroSummonedEvent } from "@dfkapi/data-core/src/testdata";
-import { upsertHero, getHero, upsertHeroSummonedEvent, upsertHeroSummonedEvents, paginateAllSummonedHeroIds } from './heroes';
+import { upsertHero, getHero, upsertHeroSummonedEvent, upsertHeroSummonedEvents, paginateAllSummonedHeroIds, getSummonedHeroIdsWithNoHeroRecord } from './heroes';
 
 describe('Heroes Postgres API', () => {
 
@@ -187,6 +187,86 @@ describe('Heroes Postgres API', () => {
             ]);
             expect(timesCalled).toBe(4);
 
+        });
+    });
+
+    describe("getSummonedHeroIdsWithNoHeroRecord", () => {
+        beforeEach(async () => {
+            await knex('hero_summoned_events').truncate();
+        });
+
+        it("should retrieve all hero ids in order with limit from the given chainId", async () => {
+            const heroSummonedEvents = [
+                makeHeroSummonedEvent({ logIndex: 1, heroId: 1000n }),
+                makeHeroSummonedEvent({ logIndex: 2, heroId: 997n }),
+                makeHeroSummonedEvent({ logIndex: 3, heroId: 34n }),
+                makeHeroSummonedEvent({ logIndex: 4, heroId: 1001n }),
+                makeHeroSummonedEvent({ logIndex: 21, heroId: 1002n }),
+                makeHeroSummonedEvent({ logIndex: 32, heroId: 3n }),
+                makeHeroSummonedEvent({ logIndex: 49, heroId: 4n }),
+                makeHeroSummonedEvent({ logIndex: 94, heroId: 2n }),
+                makeHeroSummonedEvent({ logIndex: 99, heroId: 1n }),
+                makeHeroSummonedEvent({ logIndex: 101, heroId: 10000n }),
+            ];
+
+            const otherChainEvents = [
+                makeHeroSummonedEvent({ logIndex: 10, heroId: 0n }),
+            ];
+
+            await upsertHeroSummonedEvents(heroSummonedEvents, 0);
+            await upsertHeroSummonedEvents(otherChainEvents, 1);
+
+            const ids = await getSummonedHeroIdsWithNoHeroRecord(0, 0n, 3);
+
+            expect(ids).toEqual([
+                1n,
+                2n,
+                3n,
+            ]);
+
+        });
+
+        it("should not return ids that already exist in the heroes table", async () => {
+            const heroSummonedEvents = [
+                makeHeroSummonedEvent({ logIndex: 1, heroId: 1000n }),
+                makeHeroSummonedEvent({ logIndex: 2, heroId: 997n }),
+            ];
+
+            const existingHero = makeHero({ id: heroSummonedEvents[1].data.heroId });
+
+            await upsertHero(existingHero, { currentChainId: 0, summonedChainId: 0 });
+            await upsertHeroSummonedEvents(heroSummonedEvents, 0);
+
+            const ids = await getSummonedHeroIdsWithNoHeroRecord(0, 0n, 3);
+
+            expect(ids).toEqual([
+                1000n
+            ]);
+        });
+
+        it("filters >= the startingId", async () => {
+            const heroSummonedEvents = [
+                makeHeroSummonedEvent({ logIndex: 1, heroId: 1000n }),
+                makeHeroSummonedEvent({ logIndex: 2, heroId: 997n }),
+                makeHeroSummonedEvent({ logIndex: 3, heroId: 34n }),
+                makeHeroSummonedEvent({ logIndex: 4, heroId: 1001n }),
+                makeHeroSummonedEvent({ logIndex: 21, heroId: 1002n }),
+                makeHeroSummonedEvent({ logIndex: 32, heroId: 3n }),
+                makeHeroSummonedEvent({ logIndex: 49, heroId: 4n }),
+                makeHeroSummonedEvent({ logIndex: 94, heroId: 2n }),
+                makeHeroSummonedEvent({ logIndex: 99, heroId: 1n }),
+                makeHeroSummonedEvent({ logIndex: 101, heroId: 10000n }),
+            ];
+
+            await upsertHeroSummonedEvents(heroSummonedEvents, 0);
+
+            const ids = await getSummonedHeroIdsWithNoHeroRecord(0, 1001n, 3);
+
+            expect(ids).toEqual([
+                1001n,
+                1002n,
+                10000n
+            ]);
         });
     });
 });

@@ -7,7 +7,7 @@ import {
     getHeroes,
     Provider 
 } from '@dfkapi/data-dfk';
-import { getIndexState, upsertIndexState, upsertHeroSummonedEvents, paginateAllSummonedHeroIds, upsertHero } from '@dfkapi/data-postgres';
+import { getIndexState, upsertIndexState, upsertHeroSummonedEvents, getSummonedHeroIdsWithNoHeroRecord, upsertHero } from '@dfkapi/data-postgres';
 import pino from 'pino';
 
 const logger = pino();
@@ -86,36 +86,33 @@ async function importCrystalvaleEvents() {
     }
 }
 
-export async function refreshAllHeroes() {
-    const refreshPromises = [refreshSerendaleHeroes(), refreshCrystalvaleHeroes()];
+export async function importNewlySummonedHeroes() {
+    const refreshPromises = [importSummonedSerendaleHeroes(), importSummonedCrystalvaleHeroes()];
     await Promise.all(refreshPromises);
 }
 
-async function refreshSerendaleHeroes() {
-    const chainId = 0;
-    await paginateAllSummonedHeroIds(chainId, async (ids: bigint[]) => {
-        logger.info(`Refreshing heroes from ${ids[0]} to ${ids[ids.length - 1]}`);
-        const heroes = await getHeroes(ids, getSerendaleProvider);
+async function importSummonedHeroesWithNoHeroRecord(chainId: number, getProvider: () => Provider) {
+    let ids = await getSummonedHeroIdsWithNoHeroRecord(chainId, 0n);
+
+    while (ids.length > 0) {
+        logger.info(`Creating heroes from ${ids[0]} to ${ids[ids.length - 1]}`);
+        const heroes = await getHeroes(ids, getProvider);
         const upsertPromises = heroes.filter(h => h.isPresent()).map(h => upsertHero(h.get(), { currentChainId: chainId, summonedChainId: chainId }));
         await Promise.all(upsertPromises);
 
         if (heroes.length !== upsertPromises.length) {
-            logger.warn("GOT HERO ID SUMMONED IN SD BUT NOT RETRIEVED IN SD");
+            logger.warn(`GOT HERO ID SUMMONED IN ${chainId} BUT NOT RETRIEVED IN ${chainId}`);
         }
-    });
+
+        ids = await getSummonedHeroIdsWithNoHeroRecord(chainId, ids[ids.length - 1]);
+    }
+}
+
+async function importSummonedSerendaleHeroes() {
+    return await importSummonedHeroesWithNoHeroRecord(0, getSerendaleProvider);
 }
 
 
-async function refreshCrystalvaleHeroes() {
-    const chainId = 1;
-    await paginateAllSummonedHeroIds(chainId, async (ids: bigint[]) => {
-        logger.info(`Refreshing heroes from ${ids[0]} to ${ids[ids.length - 1]}`);
-        const heroes = await getHeroes(ids, getCrystalvaleProvider);
-        const upsertPromises = heroes.filter(h => h.isPresent()).map(h => upsertHero(h.get(), { currentChainId: chainId, summonedChainId: chainId }));
-        await Promise.all(upsertPromises);
-
-        if (heroes.length !== upsertPromises.length) {
-            logger.warn("GOT HERO ID SUMMONED IN CV BUT NOT RETRIEVED IN CV");
-        }
-    });
+async function importSummonedCrystalvaleHeroes() {
+    return await importSummonedHeroesWithNoHeroRecord(1, getCrystalvaleProvider);
 }

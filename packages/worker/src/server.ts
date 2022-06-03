@@ -1,9 +1,7 @@
-import cron from 'node-cron';
+import schedule from 'node-schedule';
 import pino from 'pino';
 import httpApp from './http';
-import dataDfk from '@dfkapi/data-dfk';
-import dataPostgres from '@dfkapi/data-postgres';
-import { importNewEvents, refreshAllHeroes } from './indexer';
+import { importNewEvents, importNewlySummonedHeroes } from './indexer';
 
 const logger = pino();
 
@@ -14,7 +12,7 @@ run()
 async function run() {
     startStatusServer();
     await importNewEvents();
-    await refreshAllHeroes();
+    await importNewlySummonedHeroes();
     scheduleCronJobs();
 }
 
@@ -28,8 +26,10 @@ function startStatusServer() {
 
 
 function scheduleCronJobs() {
-    cron.schedule("* * * * *", () => {
-        logger.info('Hi - I am running!');
+    const everyFiveMinutes = "/5 * * * *";
+    schedule.scheduleJob(everyFiveMinutes, async () => {
+        await importNewEvents();
+        await importNewlySummonedHeroes();
     });
 }
 

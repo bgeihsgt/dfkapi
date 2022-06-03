@@ -299,3 +299,16 @@ export async function paginateAllSummonedHeroIds(chainId: number, callback: (ids
         }
     } while(results.length > 0);
 }
+
+export async function getSummonedHeroIdsWithNoHeroRecord(chainId: number, startingId: bigint, limit: number = 100) {
+    const results = await knex("hero_summoned_events")
+            .select("hero_summoned_events.hero_id")
+            .leftOuterJoin("heroes", "hero_summoned_events.hero_id", "heroes.id")
+            .where("hero_summoned_events.chain_id", chainId)
+            .where("hero_summoned_events.hero_id", ">=", startingId.toString())
+            .whereNull("heroes.id")
+            .orderBy("hero_summoned_events.hero_id")
+            .limit(limit);
+
+    return results.map(r => BigInt(r.hero_id));
+}
