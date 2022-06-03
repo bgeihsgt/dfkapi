@@ -1,5 +1,5 @@
-export function unixTimeToTimestamp(unixTime: bigint): string {
-    const numberfied = Number(unixTime * 1000n) 
+export function unixTimeToTimestamp(unixTime: bigint | number): string {
+    const numberfied = (typeof(unixTime) === "number") ? (unixTime * 1000) : Number(unixTime * 1000n);
     return new Date(numberfied).toISOString();
 }
 

@@ -85,6 +85,7 @@ describe('Heroes Postgres API', () => {
                 transaction_hash: "0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6",
                 transaction_index: 1,
                 visual_genes: "170985199761119229137574546544909115454800841947938051489981624386329604",
+                timestamp: new Date("2022-04-07T23:10:44.000Z")
             }));
         });
 

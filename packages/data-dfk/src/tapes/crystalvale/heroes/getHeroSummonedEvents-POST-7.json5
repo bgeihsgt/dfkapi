@@ -1,0 +1,118 @@
+{
+    meta: {
+        createdAt: '2022-06-03T04:52:02.692Z',
+        host: 'https://subnets.avax.network',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/defi-kingdoms/dfk-chain/rpc',
+        method: 'POST',
+        body: {
+            method: 'eth_getBlockByNumber',
+            params: [
+                '0x29449b',
+                false,
+            ],
+            id: 44,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            date: [
+                'Fri, 03 Jun 2022 04:52:02 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'transfer-encoding': [
+                'chunked',
+            ],
+            connection: [
+                'close',
+            ],
+            'cf-ray': [
+                '7155d12d6b140895-SEA',
+            ],
+            'cache-control': [
+                'public,s-maxage=31536000,immutable',
+            ],
+            'set-cookie': [
+                'api-session=1654231923.858.139.144823|43948158efdd1740d11560e589c8148c; Max-Age=172800; Path=/; Secure; HttpOnly; SameSite=None',
+                '__cflb=0H28vrgscirbvDutDA3LhTU7NwuystFQZjXQcEVSE1i; SameSite=Lax; path=/; expires=Sat, 04-Jun-22 03:52:02 GMT; HttpOnly',
+                '__cf_bm=Ew9PTK8UhQ_9slOC7NnVvrLE_BOuFao6Zq409SWIxCU-1654231922-0-AU/MBM9lhG355RFCJdUsHOhE3DYrwydAPtD3q3aU9/CjJooYlsWz0u8hTt6OiJQI6MLshHrktFePKkgAD5uF/MI=; path=/; expires=Fri, 03-Jun-22 05:22:02 GMT; domain=.avax.network; HttpOnly; Secure; SameSite=None',
+            ],
+            'strict-transport-security': [
+                'max-age=0',
+            ],
+            vary: [
+                'Origin',
+            ],
+            'cf-cache-status': [
+                'DYNAMIC',
+            ],
+            'access-control-allow-credentials': [
+                'true',
+            ],
+            'expect-ct': [
+                'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+            ],
+            'x-cache': [
+                'MISS',
+            ],
+            'x-execution-weight': [
+                'cheap',
+            ],
+            'x-robots-tag': [
+                'noindex',
+            ],
+            server: [
+                'cloudflare',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 44,
+            result: {
+                baseFeePerGas: '0x2625a00',
+                blockGasCost: '0x0',
+                difficulty: '0x1',
+                extraData: '0x000000000000000000000000000363da00000000000000000000000000049ab00000000000000000000000000003e1100000000000000000000000000005519a00000000000000000000000000000000',
+                gasLimit: '0x1c9c380',
+                gasUsed: '0x206fc3',
+                hash: '0xd4a74a67f28fcd3ef360b8c28a3e9a42dcfd0f37068f46e447b941c7d0c60c10',
+                logsBloom: '0x00008000000000000000001000000000000000000000000000000000000000000002000000040000100000000000000000000000001000000000000040000000000000000001000000000008000000000000000020000000000000000008000000000000020000000000000000000801000000000000000000000010000000200000000000000000000000000004000000000000000000000000000000000400000000000000000000010000000000000000008000000040000000000040010000000002000000000000000000000000000000000000000000000000040020000000000000000000200000000000000000000000000000000000000000000000',
+                miner: '0xed6dc9fd092190c08e4aff8611496774ded19d54',
+                mixHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+                nonce: '0x0000000000000000',
+                number: '0x29449b',
+                parentHash: '0xf3c9929acc6c51abbf64ba069dfa2d57be432f388f844a8a69b08ddccc422fb8',
+                receiptsRoot: '0x4e3c168cecefd019e1986dab2abc5b008a864856ce7ce433a6648ff12189dfd8',
+                sha3Uncles: '0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347',
+                size: '0x1032',
+                stateRoot: '0x8e5cbf98d9cc47c4bec11e0f6689a848a4183cbb6654972e9de42ae4b9f1deb0',
+                timestamp: '0x62977247',
+                totalDifficulty: '0x29449b',
+                transactions: [
+                    '0x3dd8c9c41203074b06623f7e233f423a26e3af81abac7cfd29c629ef7fc10fc3',
+                    '0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6',
+                    '0xb45fafd3d526bb5090a268cf0c2b516915cee9c85015dc0cc3de14a532447ab1',
+                    '0xdd051b36e373c2d5e11825f91f01fe5a0a3596a63b66e6c5a4d469e6e559b3de',
+                    '0x619640ece44adb8e079911115989a0556098d7c51d2bf0bb03861f6311745fcc',
+                    '0xa5b9834434bc783aa428adaaf6b5cee35afce82bec0900a3ed347237e98d7aa8',
+                    '0xeb8ba8d5c9c2cad139f6f1eb50bf0f0c587a5feaaadde9abd83d8e21790ddc41',
+                    '0x93c9bca08e363d6154a1b257ccb81e473cc06e9d5ee5349e8d077eab6f8a6907',
+                    '0x867963c12d89acea2af738f693d38e7b352c43ac49299245dba1ebe966e03157',
+                ],
+                transactionsRoot: '0xc0b2897dbeeb33a35ba944957bbb30dbc28993b4b6bdd21c3bb867c60aa84054',
+                uncles: [],
+            },
+        },
+    },
+}

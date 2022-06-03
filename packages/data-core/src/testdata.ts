@@ -101,6 +101,7 @@ export function makeHeroSummonedEvent(options?: HeroSummonedEventOptions): Block
         removed: false,
         transactionHash: "0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6",
         transactionIndex: 1,
+        timestamp: 1649373044,
         data: {
             owner: '0x99c71df5B17538b0CF10F6FdDaD18766349A7606',
             heroId: options?.heroId || 1000000000963n,

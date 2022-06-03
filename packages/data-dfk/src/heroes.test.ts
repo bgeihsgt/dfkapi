@@ -127,6 +127,7 @@ describe("Heroes data access" , () => {
                 removed: false,
                 transactionHash: "0x1d06ef907d6c763ca081d47b0904a885f3180e7b05425fc367709b0ca4998ab9",
                 transactionIndex: 5,
+                timestamp: 1649371195,
                 data: {
                     owner: '0xA333024B407f9f6650F1eea335dF2E00bb27ef70',
                     heroId: 166750n,
@@ -145,6 +146,7 @@ describe("Heroes data access" , () => {
                 removed: false,
                 transactionHash: "0xd404b6497edeca9193d2c4bd1ce1069977f121f1e54cd4b4aa5ef26dc29785d4",
                 transactionIndex: 13,
+                timestamp: 1649372783,
                 data: {
                     owner: "0x4fefD1eB4528683eBACe38B5263f378e582F6ab9",
                     heroId: 166759n,
@@ -169,6 +171,7 @@ describe("Heroes data access" , () => {
                 removed: false,
                 transactionHash: "0xb4ebf760fb4fb93fa6580fe3723f3ebae8002908b1d13cba890e79fafa0241d6",
                 transactionIndex: 1,
+                timestamp: 1654092359,
                 data: {
                     owner: '0x99c71df5B17538b0CF10F6FdDaD18766349A7606',
                     heroId: 1000000000963n,

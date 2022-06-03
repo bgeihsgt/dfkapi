@@ -1,6 +1,6 @@
 import { ethers, BigNumber } from "ethers";
-import { getEventsParallelized } from "./events";
-import { getSerendaleProvider, Provider, ProviderLocation } from "./provider";
+import { EventWithTimestamp, getEventsParallelized } from "./events";
+import { Provider, ProviderLocation } from "./provider";
 import { retry } from "@dfkapi/data-core";
 
 const SERENDALE_CONTRACT_ADDRESS = '0x5F753dcDf9b1AD9AabC1346614D1f4746fd6Ce5C'
@@ -60,8 +60,7 @@ const abi = `
     ]
 `
 
-function getContract(getProvider?: () => Provider) {
-    getProvider = getProvider || getSerendaleProvider;
+function getContract(getProvider: () => Provider) {
     const provider = getProvider();
 
     const contract = new ethers.Contract(provider.location == ProviderLocation.Serendale ? SERENDALE_CONTRACT_ADDRESS : CRYSTALVALE_CONTRACT_ADDRESS, abi, provider.provider);
@@ -71,7 +70,7 @@ function getContract(getProvider?: () => Provider) {
 
 export type ContractArray = Array<BigNumber | string | number | boolean | ContractArray>;
 
-export async function getHero(id: bigint, getProvider?: () => Provider): Promise<ContractArray> {
+export async function getHero(id: bigint, getProvider: () => Provider): Promise<ContractArray> {
     return await retry(async () => {
         const contract = getContract(getProvider);
         
@@ -79,6 +78,6 @@ export async function getHero(id: bigint, getProvider?: () => Provider): Promise
     });
 }
 
-export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<ethers.Event[]> {
-    return await getEventsParallelized(() => getContract(getProvider), c => c.filters.HeroSummoned(null), fromBlock, toBlock);
+export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider: () => Provider): Promise<EventWithTimestamp[]> {
+    return await getEventsParallelized(getProvider, () => getContract(getProvider), c => c.filters.HeroSummoned(null), fromBlock, toBlock);
 }

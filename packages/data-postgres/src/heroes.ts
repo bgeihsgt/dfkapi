@@ -265,6 +265,7 @@ export async function upsertHeroSummonedEvent(heroSummonedEvent: BlockchainEvent
         stat_genes: heroSummonedEvent.data.statGenes,
         visual_genes: heroSummonedEvent.data.visualGenes,
         chain_id: chainId,
+        timestamp: unixTimeToTimestamp(heroSummonedEvent.timestamp),
         updated_at: new Date().toUTCString()
     }
 

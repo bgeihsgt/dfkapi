@@ -1,0 +1,56 @@
+{
+    meta: {
+        createdAt: '2022-06-03T04:52:03.370Z',
+        host: 'https://api.harmony.one/',
+        reqHumanReadable: true,
+        resHumanReadable: true,
+    },
+    req: {
+        headers: {
+            'content-type': 'application/json',
+            connection: 'close',
+        },
+        url: '/',
+        method: 'POST',
+        body: {
+            method: 'net_version',
+            params: [],
+            id: 43,
+            jsonrpc: '2.0',
+        },
+    },
+    res: {
+        status: 200,
+        headers: {
+            server: [
+                'nginx',
+            ],
+            date: [
+                'Fri, 03 Jun 2022 04:52:03 GMT',
+            ],
+            'content-type': [
+                'application/json',
+            ],
+            'content-length': [
+                '48',
+            ],
+            vary: [
+                'Origin',
+            ],
+            'set-cookie': [
+                'DO-LB="MTAuMTI0LjAuMjA6ODUwMA=="; Max-Age=60; Path=/; HttpOnly; SameSite=Lax',
+            ],
+            'cache-control': [
+                'private',
+            ],
+            connection: [
+                'close',
+            ],
+        },
+        body: {
+            jsonrpc: '2.0',
+            id: 43,
+            result: '1666600000',
+        },
+    },
+}

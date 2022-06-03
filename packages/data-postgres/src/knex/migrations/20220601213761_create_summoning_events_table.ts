@@ -15,6 +15,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('stat_genes', 128).notNullable();
         table.string('visual_genes', 128).notNullable();
         table.integer("chain_id").unsigned().notNullable().references("chains.id");
+        table.timestamp("timestamp").notNullable();
         table.timestamps(true, true);
 
         table.primary(["chain_id", "transaction_hash", "log_index"]);

@@ -4,6 +4,7 @@ import { getHero as getContractHero, getHeroSummonedEvents as getContractHeroSum
 import { Hero, HeroRarity, BlockchainEvent, HeroSummonedEvent } from '@dfkapi/data-core';
 import pMap from 'p-map';
 import { Optional } from 'typescript-optional';
+import { EventWithTimestamp } from "./contracts/events";
 
 
 function contractHeroToHero(contractHero: ContractArray): Hero {
@@ -106,7 +107,7 @@ function isNotFound(err: any) {
     );
 }
 
-export async function getHero(id: bigint, getProvider?: () => Provider): Promise<Optional<Hero>> {
+export async function getHero(id: bigint, getProvider: () => Provider): Promise<Optional<Hero>> {
     try {
         const contractHero = await getContractHero(id, getProvider);
         const mappedHero = contractHeroToHero(contractHero);
@@ -125,7 +126,7 @@ export async function getHero(id: bigint, getProvider?: () => Provider): Promise
     }
 }
 
-export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider): Promise<Array<Optional<Hero>>> {
+export async function getHeroes(ids: Array<bigint>, getProvider: () => Provider): Promise<Array<Optional<Hero>>> {
     const mapper = async (id: bigint): Promise<Optional<Hero>> => {
         return await getHero(id, getProvider);
     } 
@@ -133,36 +134,37 @@ export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider
     return await pMap(ids, mapper, { concurrency: 30 });
 }
 
-function HeroSummonedEventFromRawEvent(e: Event): BlockchainEvent<HeroSummonedEvent> {
-    if (!e.args) {
+function HeroSummonedEventFromRawEvent(e: EventWithTimestamp): BlockchainEvent<HeroSummonedEvent> {
+    if (!e.event.args) {
         throw new Error("Found hero summoned event with no args.");
     }
 
     return {
-        blockNumber: e.blockNumber,
-        blockHash: e.blockHash,
-        transactionIndex: e.transactionIndex,
-        removed: e.removed,
-        address: e.address,
-        rawData: e.data,
-        transactionHash: e.transactionHash,
-        logIndex: e.logIndex,
+        blockNumber: e.event.blockNumber,
+        blockHash: e.event.blockHash,
+        transactionIndex: e.event.transactionIndex,
+        removed: e.event.removed,
+        address: e.event.address,
+        rawData: e.event.data,
+        transactionHash: e.event.transactionHash,
+        logIndex: e.event.logIndex,
+        timestamp: e.timestamp,
         data: {
-            owner: e.args[0],
-            heroId: e.args[1].toBigInt(),
-            summonerId: e.args[2].toBigInt(),
-            assistantId: e.args[3].toBigInt(),
-            statGenes: e.args[4].toBigInt(),
-            visualGenes: e.args[5].toBigInt()
+            owner: e.event.args[0],
+            heroId: e.event.args[1].toBigInt(),
+            summonerId: e.event.args[2].toBigInt(),
+            assistantId: e.event.args[3].toBigInt(),
+            statGenes: e.event.args[4].toBigInt(),
+            visualGenes: e.event.args[5].toBigInt()
         }
     };
 }
 
-function parseHeroSummonedEvents(rawEvents: Array<Event>): Array<BlockchainEvent<HeroSummonedEvent>> {
+function parseHeroSummonedEvents(rawEvents: Array<EventWithTimestamp>): Array<BlockchainEvent<HeroSummonedEvent>> {
     return rawEvents.map(e => HeroSummonedEventFromRawEvent(e));
 }
 
-export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider?: () => Provider): Promise<Array<BlockchainEvent<HeroSummonedEvent>>> {
+export async function getHeroSummonedEvents(fromBlock: number, toBlock: number, getProvider: () => Provider): Promise<Array<BlockchainEvent<HeroSummonedEvent>>> {
     const rawEvents = await getContractHeroSummonedEvents(fromBlock, toBlock, getProvider);
 
     return parseHeroSummonedEvents(rawEvents);
