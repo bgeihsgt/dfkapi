@@ -7,8 +7,24 @@ export enum HeroRarity {
 }
 
 export enum HeroClass {
+    Warrior = 0,
+    Knight = 1,
+    Thief = 2,
+    Archer = 3,
     Priest = 4,
-    Pirate = 7
+    Wizard = 5,
+    Monk = 6,
+    Pirate = 7,
+    Berserker = 8,
+    Seer = 9,
+    Paladin = 16,
+    Darkknight = 17,
+    Summoner = 18,
+    Ninja = 19,
+    Shapeshifter = 20,
+    Dragoon = 24,
+    Sage = 25,
+    Dreadknight = 28
 }
 
 export enum HeroStatus {
