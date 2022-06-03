@@ -294,7 +294,7 @@ export async function paginateAllSummonedHeroIds(chainId: number, callback: (ids
         offset += pageSize;
 
         if (results.length > 0) {
-            callback(results.map(r => BigInt(r.hero_id)));
+            await callback(results.map(r => BigInt(r.hero_id)));
         }
     } while(results.length > 0);
 }
