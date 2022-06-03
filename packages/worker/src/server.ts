@@ -3,7 +3,7 @@ import pino from 'pino';
 import httpApp from './http';
 import dataDfk from '@dfkapi/data-dfk';
 import dataPostgres from '@dfkapi/data-postgres';
-import { importNewEvents } from './indexer';
+import { importNewEvents, refreshAllHeroes } from './indexer';
 
 const logger = pino();
 
@@ -14,6 +14,7 @@ run()
 async function run() {
     startStatusServer();
     await importNewEvents();
+    await refreshAllHeroes();
     scheduleCronJobs();
 }
 

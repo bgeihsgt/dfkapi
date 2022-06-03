@@ -130,7 +130,7 @@ export async function getHeroes(ids: Array<bigint>, getProvider?: () => Provider
         return await getHero(id, getProvider);
     } 
 
-    return await pMap(ids, mapper, { concurrency: 10 });
+    return await pMap(ids, mapper, { concurrency: 30 });
 }
 
 function HeroSummonedEventFromRawEvent(e: Event): BlockchainEvent<HeroSummonedEvent> {

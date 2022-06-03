@@ -279,7 +279,7 @@ export async function upsertHeroSummonedEvents(heroSummonedEvents: BlockchainEve
     await pMap(heroSummonedEvents, mapper, { concurrency: 10 });
 }
 
-export async function paginateAllSummonedHeroIds(chainId: number, callback: (ids: bigint[]) => Promise<void>, pageSize: number = 1000) {
+export async function paginateAllSummonedHeroIds(chainId: number, callback: (ids: bigint[]) => Promise<void>, pageSize: number = 100) {
     let results = [];
     let offset = 0;
 

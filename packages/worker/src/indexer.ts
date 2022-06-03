@@ -4,9 +4,10 @@ import {
     getSerendaleProvider, 
     getHeroSummonedEvents, 
     splitBlockRanges, 
+    getHeroes,
     Provider 
 } from '@dfkapi/data-dfk';
-import { getIndexState, upsertIndexState, upsertHeroSummonedEvents} from '@dfkapi/data-postgres';
+import { getIndexState, upsertIndexState, upsertHeroSummonedEvents, paginateAllSummonedHeroIds, upsertHero } from '@dfkapi/data-postgres';
 import pino from 'pino';
 
 const logger = pino();
@@ -42,10 +43,7 @@ async function importEvents<T>(options: ImportEventsOptions<T>) {
 
 export async function importNewEvents() {
     const importPromises = [importSerendaleEvents(), importCrystalvaleEvents()];
-
-    for (const promise of importPromises) {
-        await promise;
-    }
+    await Promise.all(importPromises);
 }
 
 async function importSerendaleEvents() {
@@ -86,4 +84,38 @@ async function importCrystalvaleEvents() {
     for (const config of configs) {
         await importEvents(config);
     }
+}
+
+export async function refreshAllHeroes() {
+    const refreshPromises = [refreshSerendaleHeroes(), refreshCrystalvaleHeroes()];
+    await Promise.all(refreshPromises);
+}
+
+async function refreshSerendaleHeroes() {
+    const chainId = 0;
+    await paginateAllSummonedHeroIds(chainId, async (ids: bigint[]) => {
+        logger.info(`Refreshing heroes from ${ids[0]} to ${ids[ids.length - 1]}`);
+        const heroes = await getHeroes(ids, getSerendaleProvider);
+        const upsertPromises = heroes.filter(h => h.isPresent()).map(h => upsertHero(h.get(), { currentChainId: chainId, summonedChainId: chainId }));
+        await Promise.all(upsertPromises);
+
+        if (heroes.length !== upsertPromises.length) {
+            logger.warn("GOT HERO ID SUMMONED IN SD BUT NOT RETRIEVED IN SD");
+        }
+    });
+}
+
+
+async function refreshCrystalvaleHeroes() {
+    const chainId = 1;
+    await paginateAllSummonedHeroIds(chainId, async (ids: bigint[]) => {
+        logger.info(`Refreshing heroes from ${ids[0]} to ${ids[ids.length - 1]}`);
+        const heroes = await getHeroes(ids, getCrystalvaleProvider);
+        const upsertPromises = heroes.filter(h => h.isPresent()).map(h => upsertHero(h.get(), { currentChainId: chainId, summonedChainId: chainId }));
+        await Promise.all(upsertPromises);
+
+        if (heroes.length !== upsertPromises.length) {
+            logger.warn("GOT HERO ID SUMMONED IN CV BUT NOT RETRIEVED IN CV");
+        }
+    });
 }
