@@ -27,9 +27,13 @@ function startStatusServer() {
 
 function scheduleCronJobs() {
     const everyFiveMinutes = "*/5 * * * *";
-    schedule.scheduleJob(everyFiveMinutes, async () => {
+    const job = schedule.scheduleJob(everyFiveMinutes, async () => {
         await importNewEvents();
         await importNewlySummonedHeroes();
+    });
+
+    job.on("error", err => {
+        logger.error(err, "Encountered error in summoning import job.")
     });
 }
 
