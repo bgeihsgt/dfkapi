@@ -2,17 +2,19 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
 import pinoHttp from 'pino-http';
+import Schema from './schema'
+import Resolvers from './resolvers';
 
 const schema = buildSchema(`
+    ${Schema.Hero}
+
     type Query {
-        hello: String
+        hero(id: ID!): Hero
     }
 `);
 
 const root = {
-    hello: () => {
-        return 'Hello world!';
-    }
+    hero: Resolvers.Hero
 }
 
 const app = express();
