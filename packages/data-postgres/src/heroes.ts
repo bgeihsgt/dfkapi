@@ -312,3 +312,7 @@ export async function getSummonedHeroIdsWithNoHeroRecord(chainId: number, afterI
 
     return results.map(r => BigInt(r.hero_id));
 }
+
+export async function deleteAllHeroes() {
+    await knex("heroes").truncate();
+}
