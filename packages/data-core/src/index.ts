@@ -1,3 +1,5 @@
+export type HeroRarityKey = keyof typeof HeroRarity;
+
 export enum HeroRarity {
     Common = 0,
     Uncommon = 1,
@@ -112,7 +114,8 @@ export interface BlockchainEvent<T> {
     rawData: string,
     transactionHash: string,
     logIndex: number,
-    data: T
+    data: T,
+    timestamp: number
 }
 
 export interface HeroSummonedEvent {
