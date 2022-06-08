@@ -22,7 +22,10 @@ app.use(pinoHttp());
 app.use('/graphql', graphqlHTTP({
     schema,
     rootValue: root,
-    graphiql: true
+    graphiql: true,
+    customFormatErrorFn: err => ({
+        message: err.message
+    })
 }));
 
 export default app;
