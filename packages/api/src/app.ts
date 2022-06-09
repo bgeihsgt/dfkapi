@@ -4,6 +4,8 @@ import { buildSchema } from 'graphql';
 import pinoHttp from 'pino-http';
 import Schema from './schema'
 import Resolvers from './resolvers';
+import jsonApiRouter from './jsonApiRouter';
+
 
 const schema = buildSchema(`
     ${Schema.Hero}
@@ -27,5 +29,8 @@ app.use('/graphql', graphqlHTTP({
         message: err.message
     })
 }));
+
+
+app.use('/api', jsonApiRouter);
 
 export default app;
