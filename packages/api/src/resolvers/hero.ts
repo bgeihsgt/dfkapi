@@ -1,6 +1,7 @@
 import { getHero } from "@dfkapi/data-postgres";
 import { Hero, HeroRarity, HeroRarityKey } from "@dfkapi/data-core";
 import { parseBigInt } from '../util';
+import { NotFoundError } from '../customErrors';
 
 interface HeroResolverArgs {
     id: string
@@ -22,13 +23,13 @@ export async function heroResolver(args: HeroResolverArgs): Promise<HeroResolver
     const id = parseBigInt(args.id);
 
     if (id.isEmpty()) {
-        throw new Error(`"${args.id}" is not a valid hero ID`);
+        throw new NotFoundError(`"${args.id}" is not a valid hero ID`);
     }
 
     const hero = await getHero(BigInt(args.id));
 
     if (hero.isEmpty()) {
-        throw new Error(`Hero with ID "${args.id}" does not exist`);
+        throw new NotFoundError(`Hero with ID "${args.id}" does not exist`);
     }
 
     return new HeroResolver(hero.get());

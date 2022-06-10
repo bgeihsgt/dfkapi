@@ -91,6 +91,19 @@ describe("API", () => {
                       }
                   });
             });
+
+            it("should return 404 for hero ID not found", async () => {
+                await request(app)
+                  .get('/api/heroes/555555555')
+                  .set('Accept', 'application/vnd.api+json')
+                  .send()
+                  .expect(404, {
+                      errors: [{
+                          title: "NotFoundError",
+                          detail: 'Hero with ID "555555555" does not exist'
+                      }]
+                  });
+            });
     
         });
     
