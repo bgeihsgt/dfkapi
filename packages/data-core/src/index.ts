@@ -8,6 +8,8 @@ export enum HeroRarity {
     Mythic = 4
 }
 
+export type HeroClassKey = keyof typeof HeroClass;
+
 export enum HeroClass {
     Warrior = 0,
     Knight = 1,
